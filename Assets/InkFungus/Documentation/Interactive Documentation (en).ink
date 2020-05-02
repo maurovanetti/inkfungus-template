@@ -1,7 +1,7 @@
 ﻿/*
 ===============================================================================
 This is the interactive documentation in English for the Ink-Fungus Gateway. 
-Version 0.9 created on April 29, 2020.
+Version 0.9.1 created on May 2, 2020.
 ===============================================================================
 */
 
@@ -154,6 +154,8 @@ Mauro?right "If you don't specify any portrait, the first one will be used by de
 Mauro "The label colours are defined character-wise, but…
 Speaker "…you can also define a default colour for those speaker names that correspond to no character. # saystyle plain
 Speaker "The default colour for character-less labels is specified in a property of the Narrative Director component of the Ink-Fungus Gateway.
+Wauro "If a Character component has the Set Say Dialog property pointing to another SayDialog, like Wauro does, that one will be used instead.
+Wauro "This is very useful to have some characters speak through a completely different visual element (think a speech balloon or a phone screen).
 -> Conversation_submenu
 
 = Options

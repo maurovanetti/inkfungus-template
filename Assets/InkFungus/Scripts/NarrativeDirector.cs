@@ -361,6 +361,7 @@ namespace InkFungus
                         verbatim = true;
                     }
                 }
+                SayDialog sayDialogToUse = sayDialog;
                 if (!verbatim)
                 {
                     line = dialogLine.Groups["text"].Value;
@@ -371,28 +372,30 @@ namespace InkFungus
                         string portraitName = (dialogLine.Groups["portrait"].Success) ?
                             dialogLine.Groups["portrait"].Value : null;
                         portrait = FindPortrait(speaker, portraitName);
-                        sayDialog.SetCharacter(speaker);
+                        SayDialog specificSayDialog = speaker.SetSayDialog;
+                        if (speaker.SetSayDialog != null && speaker.SetSayDialog != sayDialog)
+                        {
+                            sayDialogToUse = speaker.SetSayDialog;                            
+                        }
+                        sayDialogToUse.SetCharacter(speaker);
                     }
                     else
                     {
-                        sayDialog.SetCharacterName(character, defaultCharacterColor);
+                        sayDialogToUse.SetCharacterName(character, defaultCharacterColor);
                     }
                 }
                 else
                 {
-                    sayDialog.SetCharacterName("", defaultCharacterColor);
+                    sayDialogToUse.SetCharacterName("", defaultCharacterColor);
                 }
-                sayDialog.SetCharacterImage(portrait);
+                sayDialogToUse.SetCharacterImage(portrait);
                 Action nextStep;
-                bool fadeWhenDone;
                 if (pauseTime > 0)
                 {
-                    fadeWhenDone = true;
                     nextStep = Idle;
                 }
                 else
                 {
-                    fadeWhenDone = false;
                     nextStep = Narrate;
                 }
                 narrationHandle++;
@@ -408,7 +411,8 @@ namespace InkFungus
                         Debug.Log("Discarding orphan action associated with expired narration handle " + originalNarrationHandle);
                     }
                 };
-                StartCoroutine(sayDialog.DoSay(line, true, !flags["auto"].Get(), fadeWhenDone, true, true, null, onSayComplete));
+                bool fadeWhenDone = story.canContinue || flags["hide"].Get();
+                StartCoroutine(sayDialogToUse.DoSay(line, true, !flags["auto"].Get(), fadeWhenDone, true, true, null, onSayComplete));
                 AutoSave();
             }
             else
@@ -424,7 +428,7 @@ namespace InkFungus
                     menuDialog.Clear();
                     if (flags["hide"].Get())
                     {
-                        menuDialog.HideSayDialog();
+                        menuDialog.HideSayDialog(); // probably not needed
                     }
                     foreach (Choice choice in choices)
                     {
