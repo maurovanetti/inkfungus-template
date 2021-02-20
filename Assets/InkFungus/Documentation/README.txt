@@ -1,5 +1,5 @@
 ===============================================================================
-	INK-FUNGUS GATEWAY version 0.9 (April 29, 2020)
+	INK-FUNGUS GATEWAY version 1.0 (Febuary 20, 2021)
 	A free tool to create narrative-driven videogames with Unity, Ink and Fungus
 ===============================================================================
 Requirements:
@@ -10,8 +10,9 @@ Requirements:
 Installation:
 - Install the Ink-Fungus Gateway in the Assets folder of the Unity project.
 
-The documentation is provided as a playable Unity project.
+The documentation is provided as a playable Unity project or a static PDF.
 Open <Project folder>/Assets/Documentation/Interactive Documentation.unity
+Open <Project folder>/Assets/Documentation/Static Documentation.pdf
 
 Contribute:
 - Fork https://github.com/maurovanetti/inkfungus/
