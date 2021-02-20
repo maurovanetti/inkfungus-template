@@ -31,6 +31,7 @@ namespace InkFungus
         public string refreshVariablesMessage = "refresh";
         public string textPauseMessage = "pause";
         public string textResumeMessage = "resume";
+        public string textStopMessage = "stop";
         public string saveMessage = "save";
         public string loadMessage = "load";
         public string newKnotStitchMessage = "at";
@@ -294,8 +295,9 @@ namespace InkFungus
         }
 
         public void JumpTo(string pathString)
-        {
+        {            
             story.ChoosePathString(pathString);
+            BroadcastToFungus(textResumeMessage);
             Narrate();
         }
 
@@ -361,6 +363,7 @@ namespace InkFungus
                         verbatim = true;
                     }
                 }
+                SayDialog sayDialogToUse = sayDialog;
                 if (!verbatim)
                 {
                     line = dialogLine.Groups["text"].Value;
@@ -371,28 +374,30 @@ namespace InkFungus
                         string portraitName = (dialogLine.Groups["portrait"].Success) ?
                             dialogLine.Groups["portrait"].Value : null;
                         portrait = FindPortrait(speaker, portraitName);
-                        sayDialog.SetCharacter(speaker);
+                        SayDialog specificSayDialog = speaker.SetSayDialog;
+                        if (speaker.SetSayDialog != null && speaker.SetSayDialog != sayDialog)
+                        {
+                            sayDialogToUse = speaker.SetSayDialog;                            
+                        }
+                        sayDialogToUse.SetCharacter(speaker);
                     }
                     else
                     {
-                        sayDialog.SetCharacterName(character, defaultCharacterColor);
+                        sayDialogToUse.SetCharacterName(character, defaultCharacterColor);
                     }
                 }
                 else
                 {
-                    sayDialog.SetCharacterName("", defaultCharacterColor);
+                    sayDialogToUse.SetCharacterName("", defaultCharacterColor);
                 }
-                sayDialog.SetCharacterImage(portrait);
+                sayDialogToUse.SetCharacterImage(portrait);
                 Action nextStep;
-                bool fadeWhenDone;
                 if (pauseTime > 0)
                 {
-                    fadeWhenDone = true;
                     nextStep = Idle;
                 }
                 else
                 {
-                    fadeWhenDone = false;
                     nextStep = Narrate;
                 }
                 narrationHandle++;
@@ -408,7 +413,8 @@ namespace InkFungus
                         Debug.Log("Discarding orphan action associated with expired narration handle " + originalNarrationHandle);
                     }
                 };
-                StartCoroutine(sayDialog.DoSay(line, true, !flags["auto"].Get(), fadeWhenDone, true, true, null, onSayComplete));
+                bool fadeWhenDone = story.canContinue || flags["hide"].Get();
+                StartCoroutine(sayDialogToUse.DoSay(line, true, !flags["auto"].Get(), fadeWhenDone, true, true, null, onSayComplete));
                 AutoSave();
             }
             else
@@ -417,6 +423,7 @@ namespace InkFungus
                 if (choices.Count == 0)
                 {
                     Debug.LogWarning("Story reached a stop");
+                    BroadcastToFungus(textStopMessage);
                 }
                 else
                 {
@@ -424,7 +431,7 @@ namespace InkFungus
                     menuDialog.Clear();
                     if (flags["hide"].Get())
                     {
-                        menuDialog.HideSayDialog();
+                        menuDialog.HideSayDialog(); // probably not needed
                     }
                     foreach (Choice choice in choices)
                     {
@@ -684,7 +691,7 @@ namespace InkFungus
             }
             if (useless)
             {
-                Debug.LogWarning("No global Fungus variables to sync, consider removing this OnVariablesChange call from the flowchart");
+                Debug.LogWarning("No global Fungus variables to sync, consider removing this Sync Variables command from the flowchart");
             }
         }
 
