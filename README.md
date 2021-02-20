@@ -44,40 +44,11 @@ You can and should customise these objects, to modify their appearance and behav
 
 ## Basic features
 
-=== Basic_features ===
-Which {|other }basic feature of the Ink-Fungus Gateway do you want to know about?
-+	The conversation system.
-	-> Conversation
-+	The event system.
-	-> Events
-+	The synchronisation of variables.
-	-> Variables
-+ How to jump to another knot or stitch.
-  -> Jumps
-+	Bring me back to the main menu.
-	-> Menu
-
 ## Conversation
 	
 A *.ink* file containing the script of the interactive story is the core of any project based on the Ink-Fungus Gateway. Such a file will be written in the Ink language. Ink files are automatically compiled for usage by the Ink Unity Integration plugin provided by Inkle.
 
 The Ink file asset used must be set in the `Narrative Director` component of the `Ink-Fungus Gateway` GameObject at *Basic Settings > Ink*.
-
- Conversation_submenu
-What {|else }do you want to know about the conversation system?
-+	Just how to show some text.
-	-> Text
-+	How to pause and resume the narrative.
-	-> Pause_resume
-+	How to introduce speaking characters in the game.
-	-> Characters
-+	How to let the player choose among multiple options.
-	-> Options
-+	How to modify the text behaviour.
-	-> Conversation_settings
-+	Bring me back to the main menu.
-	-> Menu
-
 
 ### Displaying text
 
