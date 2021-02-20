@@ -208,19 +208,6 @@ The `Jump To` command is executed with a *K* or *K.S* parameter, where *K* is th
 Jumps are more useful in visual-driven games such as point-and-click adventures. Visual novels, on the opposite, are usually story-driven.
 
 An example of safe usage of jumps is showcased in the interactive documentation. It uses Fungus blocks listening to *ink stop* and *ink resume* events as switches between story and visual controls.
-
-=== Advanced_features ===
-Which {|other }advanced feature of the Ink-Fungus Gateway do you want to know about?
-+	Synchronised lists.
-	-> Lists
-+	The settings.
-	-> Settings
-+	Saving and loading.
-	-> Save_load
-+	Localization.
-	-> Localization
-+	Bring me back to the main menu.
-	-> Menu
 	
 ## Synchronised lists
 
