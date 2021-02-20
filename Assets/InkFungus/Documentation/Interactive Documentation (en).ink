@@ -339,7 +339,7 @@ Did you read already about synchronising variables through the Gateway?
 - In this case, you are ready to know about synchronising Ink lists to Fungus.
 The trick is: we treat Ink lists as a collection of Booleans (true/false) in Fungus.
 For instance, we have a list called "people" in this Ink script. This list can or cannot contain items called "Mauro" and "Wauro".
-We are keeping the Ink list in sync with a global Boolean variable called "big__mushroom" in Fungus.
+We are keeping the Ink list in sync with two global Boolean variable called "people__Mauro" and "people__Wauro" in Fungus.
 -> Lists_test
 
 = Lists_test
