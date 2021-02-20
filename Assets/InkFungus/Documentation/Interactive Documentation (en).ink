@@ -1,7 +1,7 @@
 ﻿/*
 ===============================================================================
 This is the interactive documentation in English for the Ink-Fungus Gateway. 
-Version 1.0 created on Feburay 20th, 2021.
+Version 1.0 created on February 20th, 2021.
 ===============================================================================
 */
 
