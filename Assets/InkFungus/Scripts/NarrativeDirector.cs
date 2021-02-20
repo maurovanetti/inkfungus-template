@@ -31,6 +31,7 @@ namespace InkFungus
         public string refreshVariablesMessage = "refresh";
         public string textPauseMessage = "pause";
         public string textResumeMessage = "resume";
+        public string textStopMessage = "stop";
         public string saveMessage = "save";
         public string loadMessage = "load";
         public string newKnotStitchMessage = "at";
@@ -294,8 +295,9 @@ namespace InkFungus
         }
 
         public void JumpTo(string pathString)
-        {
+        {            
             story.ChoosePathString(pathString);
+            BroadcastToFungus(textResumeMessage);
             Narrate();
         }
 
@@ -421,6 +423,7 @@ namespace InkFungus
                 if (choices.Count == 0)
                 {
                     Debug.LogWarning("Story reached a stop");
+                    BroadcastToFungus(textStopMessage);
                 }
                 else
                 {
@@ -688,7 +691,7 @@ namespace InkFungus
             }
             if (useless)
             {
-                Debug.LogWarning("No global Fungus variables to sync, consider removing this OnVariablesChange call from the flowchart");
+                Debug.LogWarning("No global Fungus variables to sync, consider removing this Sync Variables command from the flowchart");
             }
         }
 

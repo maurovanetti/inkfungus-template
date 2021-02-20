@@ -7,6 +7,7 @@ with just a few lines in Italian, to test the language switch feature.
 
 VAR z = 7
 LIST people = (Mauro), (Wauro)
+VAR planet = ""
 
 -> Welcome
 
@@ -43,7 +44,7 @@ You are suggested to play this scene from within Unity in order to check the inn
 What {|else }do you want to know about the Ink-Fungus Gateway?
 +	What is the Gateway exactly?
 	-> Introduction
-+ How can I set up a scene for the Gateway.
++ How can I set up a scene for the Gateway?
 	-> Setup
 +	What are its basic features?
 	-> Basic_features
@@ -73,6 +74,8 @@ Which {|other }basic feature of the Ink-Fungus Gateway do you want to know about
 	-> Events
 +	The synchronisation of variables.
 	-> Variables
++ How to jump to another knot or stitch.
+  -> Jumps
 +	Bring me back to the main menu.
 	-> Menu
 	
@@ -113,10 +116,9 @@ For {~example|instance}, {~one|you} can put variations in the text. (Try {~and|t
 = Text_start
 You don't always want the text to be displayed right away when the game starts.
 For this reason, the visual part of the game is going to initiate the Ink narrative part that starts in pause mode.
-At the beginning of this interactive tour, you had to push the "Start/Resume" button.
-On click, that button invokes the Resume() method within the Narrative Director component of the Gateway GameObject.
-Calling NarrativeDirector.Resume() is the way to go when you want Ink to start piloting your game.
-This can also be done via an InvokeMethod or InvokeEvent command within a Fungus flowchart.
+At the beginning of this interactive tour, you had to push the Start/Resume button.
+On click, that button executes the "Resume Narrative" command as specified in the Buttons Flowchart.
+The new Fungus command "Ink/Resume Narrative" is the way to go when you want Ink to start piloting your game.
 After that, the system will just process the Ink script and display its contents in the Fungus SayDialog.
 -> Conversation_submenu
 
@@ -130,7 +132,7 @@ This was an indefinite pause, which can only be ended by explicitly resuming the
 There are also timed pauses. With a "pause 3.5" tag, for example, you can pause the narrative for 3.5 seconds.
 Let's do a 5-second pause now. Don't press the button. # pause 5
 You didn't need to press the button to end the pause after 5 seconds.
-If you pressed the button (thus calling NarrativeDirector.Resume), you've just cut the pause shorter.
+If you pressed the button (thus executing "Ink/Resume Narrative"), you've just cut the pause shorter.
 Both kinds of pauses can be useful when you want to suspend the narrative to show something with Fungus.
 When pausing or resuming happen, an "ink pause" or "ink resume" message is broadcast to all Fungus flowcharts, which can react accordingly.
 For instance, the Start/Resume button is displayed or hidden when either message is received.
@@ -188,7 +190,7 @@ There is a Fungus flowchart called "Earthquake Flowchart" in this scene that doe
 
 = Events_submenu
 Which {|other }events do you want to know about?
-+	Pause and resume.
++	Pause, resume and stop.
 	-> Events_pauseresume
 + Load and save.
 	-> Events_loadsave
@@ -204,6 +206,10 @@ Which {|other }events do you want to know about?
 = Events_pauseresume
 When pausing or resuming happen, an "ink pause" or "ink resume" message is broadcast to all Fungus flowcharts.
 This can be useful to rearrange the screen and switch from the narrative mode to the visual mode, enable/disable controls etc.
+When the story reaches a stop, an "ink stop" message is broadcast to all Fungus flowcharts.
+The stop event can mark the very end of the game or just a dead end of the narrative flow.
+The "Ink/Jump To" command can be used to get out of such dead ends.
+An "ink resume" message is also broadcast when, usually after a stop, a jump command is issued.
 -> Events_submenu
 
 = Events_loadsave
@@ -255,9 +261,8 @@ A global variable with the same name, "z", is also defined on the Fungus side of
 Why don't you click on the mushroom? (That's the Fungus logo.)
 We can use the "z" variable in the narrative, for example we can say that its current value is {z}.
 The Ink-Fungus Gateway takes care of keeping in sync global variables that share the same name.
-When a variable changes on the Fungus side, Ink needs to know, which can be done by calling OnVariablesChanged(flowchart).
-The OnVariablesChanged method can be found in the NarrativeDirector component of the Ink-Fungus Gateway GameObject.
-OnVariablesChanged can work with a null argument but it's more efficient if the flowchart originating the notification is passed as an argument.
+When a variable changes on the Fungus side, Ink needs to know, which can be done by executing the "Sync Variables" command.
+This new Fungus command can be found looking for "Ink/Sync Variables" in the command list.
 When a variable changes on the Ink side, it is automatically updated on the Fungus side and "ink refresh" messages are sent.
 A working model for a Fungus flowchart to handle a shared global variable is the Variable Processor prefab.
 A Variable Processor can be created in your scene by clicking on Tools > Fungus > Create > Variable Processor.
@@ -268,6 +273,48 @@ You can also find more about the refresh messages in the events area of the docu
 	-> Events
 +	Bring me back to the main menu.
 	-> Menu
+
+= Jumps
+If your interactive story is driven by the Ink script, you don't need any "jumps".
+The flow of your story can just follow the branching and weaving and tunnelling defined in your Ink script.
+But you may want to have the visual (Unity/Fungus) side of your game drive the narrative sometimes.
+For example, you might make a game in which you freely walk around and sometimes you meet an NPC and a conversation begins.
+One of several possible ways to do that is using the new command "Ink/Jump To".
+Let's test the "Jump To" command now.
+There is a Jumps Flowchart handling the current situation. Check it, it was enabled right now. # canjump
+This flowchart listens to "ink stop" and "ink resume" events.
+We are now about to interrupt the story flow and give control to the visuals.
+You will be able to proceed only by clicking on something. Click on the sprite to talk to Dr Mauro. # yes hide
+-> DONE
+
+= Jumps_outcome
+{ 
+	- Detached_knot:
+		The last time you spoke to Mauro you chose {planet}.
+	- else:
+		You didn't speak to Mauro. OK, whatever.
+}
+You probably don't want to combine these two styles as this interactive documentation does.
+They are two opposite ways to organise your game: either you make it story-driven or visual-driven.
+Jumps are more useful in visual-driven games such as point-and-click adventures. Visual novels, on the opposite, are usually story-driven.
+The Jumps Flowchart was now disabled again to prevent it from interfering with the main flow. # cantjump
+-> Basic_features
+
+=== Detached_knot ===
+Mauro "You clicked on Mauro's sprite and you reached this knot in the Ink script.
+Mauro "This will go on until the story fragment is over, then you can jump back to where you were before.
+Mauro "You can still keep track of what the players do in areas they jump to.
+Mauro "Example: pick your favorite inner planet.
++ Mercury
+	~ planet = "Mercury"
++ Venus
+	~ planet = "Venus"
++ Earth
+	~ planet = "Earth"
++ Mars
+	~ planet = "Mars"
+- Mauro "OK! I will remember that. # yes hide
+-> DONE
 
 === Advanced_features ===
 Which {|other }advanced feature of the Ink-Fungus Gateway do you want to know about?
@@ -283,10 +330,6 @@ Which {|other }advanced feature of the Ink-Fungus Gateway do you want to know ab
 	-> Menu
 	
 = Lists
-OK.
--> Lists_test
-
-= SPOSTALASU
 Lists are a special kind of variables in Ink. Check the documentation.
 Did you read already about synchronising variables through the Gateway?
 + Nope.
@@ -341,7 +384,7 @@ Which settings of the Narrative Director do you want to know more about{|, now|,
 This area is very straightforward. The only required value is the Ink field: you need to place your Ink script asset here.
 The Say Dialog and Menu Dialog fields can be left empty: if there is only one instance of each required Fungus object, the Gateway will find it.
 If for some reason there are multiple Say Dialog and Menu Dialog objects, they can be specified there.
-Both values can also be replaced at runtime by invoking NarrativeDirector.ReplaceSayDialog() and NarrativeDirector.ReplaceMenuDialog().
+Both values can also be replaced at runtime by executing the new Fungus commands called "Ink/Replace Say Dialog" and "Ink/Replace Menu Dialog".
 This advanced feature can deliver interesting results, e.g. by differentiating conversation options from other sorts of menus (inventory, shops etc.).
 Narrator "The Default Character Color field specifies the text colour used for the speaker label when no corresponding Character is available.
 Narrator "This is exactly what we're doing here with the "Narrrator" label.
@@ -377,6 +420,7 @@ Which {|other }flag do you want to know about?
 	
 = Flag_hide
 The "hide" flag controls whether the last conversation line before a choice is kept in display or not when the options are shown.
+This also applies to the final line before the story stops or ends.
 Let's learn by example.
 This is what happens with the "hide" flag ON. Got it? # yes hide
 +	Yeah.
@@ -511,8 +555,8 @@ Wauro "As long as there are the grouped names "text", "character" and "portrait"
 Wauro "You definitely don't need to change this setting.
 Wauro "When there are multiple choices, this flowchart is used to handle the player's choice.
 Wauro "Basically, what the Gateway does is associating each option with the corresponding block inside a special flowchart.
-Wauro "According to the option picked by the player, the method NarrativeDirector.OnOptionChosen is called with an integer argument.
-Wauro "The argument is the option number.
+Wauro "According to the option picked by the player, the new command "Ink/Choose Option" is called with an integer argument.
+Wauro "The argument is the option number (starting from 0, of course).
 Wauro "I can't imagine of a reasonable purpose for you to delegate this behaviour to another flowchart, but the world is full of suprises.
 Mauro "Well, perhaps someone wants to allow for more than just 6 options.
 Wauro "Hmm, seems legit but remember that the default Fungus Menu Dialog has 6 options max, too. So that ought to be changed as well.
@@ -551,14 +595,14 @@ Wauro "We can switch it off again. # off timer
 In most projects heavily relying on Fungus, implementing a save-and-load system in parallel with Ink is going to be a nightmare.
 The Gateway provides some tricks to help the process but please consider this feature as almost experimental and prone to failure.
 The Ink-Fungus Gateway allows for saving the Ink state in two different modes: snapshot and checkpoint.
-By invoking NarrativeDirector.SaveSnapshot (which can be done from a Fungus Flowchart block) you save the current state…
+By executing the new command "Ink/Save Snapshot" (which can be done from a Fungus Flowchart block) you save the current state…
 …at the moment when the current conversation line was displayed. Subsequent changes in variables (done through Fungus) are not going to be saved.
-By invoking NarrativeDirector.SaveCheckpoint you save the story state at the beginning of the current knot and stitch.
+By invoking another new command, "Ink/Save Checkpoint", you save the story state at the beginning of the current knot and stitch.
 This follows two different styles of saving used in many video games, even though it doesn't really allow for moment-to-moment save.
 Both save styles ask for a slot name. This is going to be used to form the file names for the save files (each save is several files).
 Notice that there is a lot of automatic saving going on, using slots "auto", "precheckpoint" and "checkpoint". Don't call your slots like that.
 The default slot name for manual saves is, predictably, "manual". If you just need one slot, use that one.
-To load what you saved in a slot, you've got to do the other way round: invoke NarrativeDirector.Load with the slot name as an argument.
+To load what you saved in a slot, you've got to do the other way round: execute "Ink/Load" with the slot name as an argument.
 Messages are broadcast at save and load events, you can check the event section in the basic features part of this interactive documentation.
 Obviously you can restrict the saving even more than that, by letting that happen only at some special milestones of your game, like chapters.
 Remember that everything Fungus (and even worse, everything Unity out of Fungus) is not going to be magically stored in your Ink save files.
@@ -578,12 +622,12 @@ For this reason, the checkpoint logic is applied to language switching in the Ga
 Ciò significa che se la persona che gioca passa a una nuova lingua, deve cominciare dall'ultimo checkpoint.
 Perciò abbiamo lo slot di salvataggio "precheckpoint": è il punto fin dove riavvolgiamo la nostra storia, quando cambiamo lingua.
 Puoi provarlo cliccando sui bottoni delle lingue proprio ora.
-Cliccare sul bottone invocherà NarrativeDirector.SwitchLanguage con la sigla linguistica "it" (italiano) come argomento.
+Cliccare sul bottone eseguirà il nuovo comando "Ink/Switch Language" con la sigla linguistica "it" (italiano) come argomento.
 -> Localization_backtoenglish
 
 = Localization_backtoenglish
 E ora torniamo in inglese.
-NarrativeDirector.SwitchLanguage was invoked with an empty argument to restore the original language (in this case, English).
+"Ink/Switch Language" was executed with an empty argument to restore the original language (in this case, English).
 In order to add extra languages to your game, you need to attach one instance of the Alternate Language Narrative Director component per extra language.
 The Alternate Language Narrative Director component has two properties: a language tag and the corresponding Ink script.
 Be careful in keeping the translated Ink script identical to the original version as far as knots, stitches, variables and logic are concerned.
