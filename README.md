@@ -6,6 +6,8 @@
 
 The **Ink-Fungus Gateway** is (no surprise here) a gateway between Ink and Fungus. **Ink** is a scripting language for interactive fiction, developed by Inkle. **Fungus** is a visual storytelling and scripting tool for [**Unity**](https://unity.com/).
 
+The Ink-Fungus Gateway is available as [a free package on the Unity Asset Store](https://assetstore.unity.com/packages/tools/integration/ink-fungus-gateway-168147).
+
 The best way to find out how the Gateway works is by checking the interactive documentation, provided as a playable Unity scene in the *InkFungus/Documentation* subfolder of this package. The interactive documentation is also playable in the browser on [the author's itch.io page](https://maurovanetti.itch.io/ifg). This documentation is a useful reference for all the features of this tool. A good knowledge of Unity, Ink and Fungus is required to make games or other sorts of interactive text-and-pictures software using the Ink-Fungus Gateway.
 
 Code-wise, the Gateway is mostly a set of `MonoBehaviour` components and new Fungus `Command`s. They manipulate the Ink engine so that it can plug into Fungus and provide ways to influence the Ink story flow from Fungus.
