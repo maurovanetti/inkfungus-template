@@ -1,4 +1,4 @@
-﻿// This code is part of the Fungus library (http://fungusgames.com) maintained by Chris Gregan (http://twitter.com/gofungus).
+﻿// This code is part of the Fungus library (https://github.com/snozbot/fungus)
 // It is released for free under the MIT open source license (https://github.com/snozbot/fungus/blob/master/LICENSE)
 
 using System.Collections;
@@ -243,6 +243,8 @@ namespace Fungus
 
             // try to find the character param first, since we need to get its portrait
             int characterIndex = -1;
+            int characterParamIndexPartial = characterIndex;
+            Character partialCharacter = null;
             if (characters == null)
             {
                 PopulateCharacterCache();
@@ -252,13 +254,28 @@ namespace Fungus
             {
                 for (int j = 0; j < characters.Length; j++)
                 {
-                    if (characters[j].NameStartsWith(sayParams[i]))
+                    if (characters[j].NameMatch(sayParams[i]))
                     {
                         characterIndex = i;
                         item.Character = characters[j];
                         break;
                     }
+                    else if (characters[j].NameStartsWith(sayParams[i]))
+                    {
+                        characterParamIndexPartial = i;
+                        partialCharacter = characters[j];
+                    }
                 }
+            }
+
+            //if still no charcter was found but we found a partial we use it for backcompat but warn user
+            if(item.Character == null && partialCharacter != null)
+            {
+                Debug.LogWarning("Conversation Manager Character Partial Match; found '" + sayParams[characterParamIndexPartial] + 
+                    "' and will use " + partialCharacter.NameText + "\n Recommend modifying conversation and characters so they match exactly.");
+
+                characterIndex = characterParamIndexPartial;
+                item.Character = partialCharacter;
             }
 
             // Assume last used character if none is specified now
@@ -422,8 +439,9 @@ namespace Fungus
                 }
 
                 if (stage != null && currentCharacter != null &&
-                    (currentPortrait != currentCharacter.State.portrait || 
-                        currentPosition != currentCharacter.State.position))
+                    (currentPortrait != currentCharacter.State.portrait ||
+                        currentPosition != currentCharacter.State.position ||
+                        (currentCharacter.State.display == DisplayType.Hide && !item.Hide)))
                 {
                     var portraitOptions = new PortraitOptions(true);
                     portraitOptions.display = item.Hide ? DisplayType.Hide : DisplayType.Show;

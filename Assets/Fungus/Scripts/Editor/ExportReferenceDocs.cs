@@ -1,4 +1,7 @@
-﻿using System;
+﻿// This code is part of the Fungus library (https://github.com/snozbot/fungus)
+// It is released for free under the MIT open source license (https://github.com/snozbot/fungus/blob/master/LICENSE)
+
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -18,7 +21,7 @@ namespace Fungus.EditorUtils
         private const string BaseDocPath = "./Docs/";
 
         [MenuItem("Tools/Fungus/Utilities/Export Reference Docs")]
-        internal static void Export()
+        public static void Export()
         {
             ExportCommandInfo();
             ExportEventHandlerInfo();
@@ -175,7 +178,7 @@ This is the reference documentation for all Fungus event handlers.
         }
 
         [MenuItem("Tools/Fungus/Utilities/Convert Docs to GitHub MD")]
-        internal static void ConvertAllToGHMD()
+        public static void ConvertAllToGHMD()
         {
             var files = Directory.GetFiles(BaseDocPath, "*.md", SearchOption.AllDirectories);
             foreach (var file in files)

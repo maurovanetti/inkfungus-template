@@ -1,4 +1,4 @@
-// This code is part of the Fungus library (http://fungusgames.com) maintained by Chris Gregan (http://twitter.com/gofungus).
+// This code is part of the Fungus library (https://github.com/snozbot/fungus)
 // It is released for free under the MIT open source license (https://github.com/snozbot/fungus/blob/master/LICENSE)
 
 using UnityEditor;
@@ -18,17 +18,13 @@ namespace Fungus.EditorUtils
 
         // Draw Views when they're not selected
 #if UNITY_5_0
-        [DrawGizmo(GizmoType.NotSelected | GizmoType.SelectedOrChild)]
+        [DrawGizmo(GizmoType.NotSelected | GizmoType.SelectedOrChild, typeof(View))]
 #else
-        [DrawGizmo(GizmoType.NotInSelectionHierarchy | GizmoType.InSelectionHierarchy)]
+        [DrawGizmo(GizmoType.NotInSelectionHierarchy | GizmoType.InSelectionHierarchy, typeof(View))]
 #endif
-        static void RenderCustomGizmo(Transform objectTransform, GizmoType gizmoType)
+        public static void RenderCustomGizmo(View view, GizmoType gizmoType)
         {
-            View view = objectTransform.gameObject.GetComponent<View>();
-            if (view != null)
-            {
-                DrawView(view, false);
-            }
+            DrawView(view, false);
         }
 
         protected virtual Vector2 LookupAspectRatio(int index)
