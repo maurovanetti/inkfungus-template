@@ -940,12 +940,12 @@ namespace InkFungus
 
         private static string GetSavePath(string slot)
         {
-            return Path.Combine(Application.persistentDataPath, slot + ".json");
+            return System.IO.Path.Combine(Application.persistentDataPath, slot + ".json");
         }
 
         private static string GetFlagSavePath(string slot, string flagName)
         {
-            return Path.Combine(Application.persistentDataPath, slot + "." + flagName + ".json");
+            return System.IO.Path.Combine(Application.persistentDataPath, slot + "." + flagName + ".json");
         }
 
         public void ReplaceSayDialog(SayDialog sayDialog)
