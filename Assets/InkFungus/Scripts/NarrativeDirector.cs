@@ -5,7 +5,6 @@ using System.Collections.Generic;
 using System.Text.RegularExpressions;
 using UnityEngine;
 using System;
-using static Ink.Runtime.Story;
 using System.IO;
 using System.Globalization;
 
@@ -772,8 +771,7 @@ namespace InkFungus
 
         public bool CheckKnotStitchChanged()
         {            
-            StoryStateWrapper ssw = new StoryStateWrapper(story.state);
-            string cPath = ssw.CPath;
+            string cPath = new StoryStateWrapper(story.state).cPath;
             if (cPath == null)
             {
                 return false;
