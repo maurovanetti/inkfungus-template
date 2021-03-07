@@ -186,9 +186,8 @@ To avoid interference with messages sent by other parts of the project, messages
 
 ## Variables
 
-Global variables exist both in Ink and in Fungus, although there are many subtle differences between them:
-- You can only have integers, floats and strings in Ink. Other variable types that exist in Fungus cannot be synchronised as they are.
-- Fungus global Booleans (true/false) can be kept in sync with 0/1 Ink integers (this happens automatically). 
+Global variables exist both in Ink and in Fungus, although there are some subtle differences between them:
+- You can only have integers, floats, strings and Booleans in Ink. Other variable types that exist in Fungus cannot be synchronised as they are.
 - You have lists in Ink, but not in Fungus. They undergo a special treatment.
 
 The Ink-Fungus Gateway takes care of keeping in sync global variables that share the same name.
