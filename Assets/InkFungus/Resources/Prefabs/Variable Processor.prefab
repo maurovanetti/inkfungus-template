@@ -16,11 +16,11 @@ GameObject:
   - component: {fileID: 4258994078021940591}
   - component: {fileID: 3036593801596948894}
   - component: {fileID: 2936275789523317941}
-  - component: {fileID: 2391040541564100216}
   - component: {fileID: 6304807895546821016}
   - component: {fileID: 8838850716325859236}
   - component: {fileID: 3349404193139073370}
   - component: {fileID: 2340031082303759000}
+  - component: {fileID: 1829776514499883723}
   m_Layer: 0
   m_Name: Variable Processor
   m_TagString: Untagged
@@ -55,19 +55,18 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   version: 1
-  scrollPos: {x: 37.5, y: -35}
+  scrollPos: {x: 236.69511, y: -141.49367}
   variablesScrollPos: {x: 0, y: 0}
   variablesExpanded: 1
   blockViewHeight: 436
-  zoom: 1
+  zoom: 0.9100001
   scrollViewRect:
     serializedVersion: 2
     x: -343
     y: -340
     width: 1114
     height: 859
-  selectedBlocks:
-  - {fileID: 3036593801596948894}
+  selectedBlocks: []
   selectedCommands: []
   variables:
   - {fileID: 711825715079303874}
@@ -102,7 +101,7 @@ MonoBehaviour:
     serializedVersion: 2
     x: 221
     y: 159
-    width: 174
+    width: 168.6813
     height: 40
   tint: {r: 1, g: 0, b: 0, a: 1}
   useCustomTint: 0
@@ -149,7 +148,7 @@ MonoBehaviour:
     serializedVersion: 2
     x: 134
     y: 371
-    width: 242
+    width: 237.91206
     height: 40
   tint: {r: 1, g: 1, b: 1, a: 1}
   useCustomTint: 0
@@ -200,32 +199,17 @@ MonoBehaviour:
     serializedVersion: 2
     x: 476
     y: 462
-    width: 217
+    width: 212.63734
     height: 40
   tint: {r: 1, g: 1, b: 1, a: 1}
   useCustomTint: 0
   itemId: 9
   blockName: Synchronize Variable with Ink
-  description: 'This block''s Invoke Event command must point its Static Event to:
-
-    -
-    GameObject: the Ink-Fungus Gateway;
-
-    - Component: the Narrative Director;
-
-    -
-    method: OnVariablesChanged;
-
-    - argument: this Flowchart.
-
-    Modify the
-    fields accordingly.
-
-    If there are multiple global variables to handle, they
-    can share this block.'
+  description: If there are multiple global variables to handle, they can share this
+    block.
   eventHandler: {fileID: 0}
   commandList:
-  - {fileID: 2391040541564100216}
+  - {fileID: 1829776514499883723}
   suppressAllAutoSelections: 0
 --- !u!114 &2936275789523317941
 MonoBehaviour:
@@ -242,61 +226,6 @@ MonoBehaviour:
   parentBlock: {fileID: 6732568884017698525}
   suppressBlockAutoSelect: 0
   message: ink refresh variable
---- !u!114 &2391040541564100216
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4368942934022340694}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 95d9ff288f3904c05ada7ac9c9a075bb, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  itemId: 14
-  indentLevel: 0
-  description: 
-  delay: 0
-  invokeType: 0
-  staticEvent:
-    m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 0}
-        m_MethodName: OnVariablesChanged
-        m_Mode: 2
-        m_Arguments:
-          m_ObjectArgument: {fileID: 139470998013196345}
-          m_ObjectArgumentAssemblyTypeName: Fungus.Flowchart, Fungus
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
-  booleanParameter:
-    booleanRef: {fileID: 0}
-    booleanVal: 0
-  booleanEvent:
-    m_PersistentCalls:
-      m_Calls: []
-  integerParameter:
-    integerRef: {fileID: 0}
-    integerVal: 0
-  integerEvent:
-    m_PersistentCalls:
-      m_Calls: []
-  floatParameter:
-    floatRef: {fileID: 0}
-    floatVal: 0
-  floatEvent:
-    m_PersistentCalls:
-      m_Calls: []
-  stringParameter:
-    stringRef: {fileID: 0}
-    stringVal: 
-  stringEvent:
-    m_PersistentCalls:
-      m_Calls: []
 --- !u!114 &6304807895546821016
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -366,3 +295,17 @@ MonoBehaviour:
     stringVal: 
   startIndex: 0
   callMode: 1
+--- !u!114 &1829776514499883723
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4368942934022340694}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 75be0d6fbd6aa8040a75cdefd3dcf013, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  itemId: 22
+  indentLevel: 0

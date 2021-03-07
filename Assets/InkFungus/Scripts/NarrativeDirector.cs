@@ -97,7 +97,14 @@ namespace InkFungus
             }
         }
 
-        private void Awake()
+        void Reset()
+        {
+            defaultCharacterColor = Color.black;
+            defaultCharacterColor.a = 1;
+        }
+
+
+        void Awake()
         {
             story = new Story(ink.text);
             if (sayDialog == null)
