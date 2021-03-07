@@ -249,11 +249,10 @@ For instance, a custom tag "fadeout 5" will be translated as "ink fadeout 5".
 -> Events_submenu
 
 = Variables
-Global variables exist in Ink and in Fungus, although there are many subtle differences between them.
+Global variables exist in Ink and in Fungus, although there are some subtle differences between them.
 + Yeah, I know.	
 + Which differences?
-	A lot. You can only have integers, floats and strings in Ink. Other variable types in Fungus cannot be synchronised.
-	Fungus global Booleans (true/false) can be kept in sync with 0/1 Ink integers (this happens automatically).
+	Some. You can only have integers, floats, strings and Booleans in Ink. Other variable types in Fungus cannot be synchronised.	
 	Then you have lists, in Ink, but not in Fungus. Find about them in the advanced-features area.
 	Let's check the easy case now.
 - For instance, "z" is defined as a global variable in the Ink script underlying this interactive tour.

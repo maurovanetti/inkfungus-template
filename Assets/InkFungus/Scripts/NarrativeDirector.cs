@@ -134,7 +134,7 @@ namespace InkFungus
                     if (syncVariableName.StartsWith(inkListName + ListItemSeparator))
                     {
                         string inkItemName = SplitFungusVariableName(syncVariableName)[1];
-                        int itemInList = inkList.ContainsItemNamed(inkItemName) ? 1 : 0;
+                        bool itemInList = inkList.ContainsItemNamed(inkItemName);
                         SyncToFungus(syncVariableName, itemInList);
                     }
                 }
@@ -164,7 +164,7 @@ namespace InkFungus
             else if (fungusVariableType == typeof(bool))
             {
                 bool boolValue = (fungusVariable as BooleanVariable).Value;
-                hasChanged = (boolValue != (0 != (int)inkVariableNewValue));
+                hasChanged = (boolValue != ((bool)inkVariableNewValue));
             }
             else
             {
@@ -180,13 +180,24 @@ namespace InkFungus
                     Debug.Log(inkVariableName + "=" + inkVariableNewValue + " (Ink->Fungus)");
                     if (inkVariableType == typeof(int))
                     {
-                        if (fungusVariableType == typeof(bool))
+                        if (fungusVariableType == typeof(bool)) // converts int to bool
                         {
                             flowchart.SetBooleanVariable(inkVariableName, (0 != (int)inkVariableNewValue));
                         }
                         else
                         {
                             flowchart.SetIntegerVariable(inkVariableName, (int)inkVariableNewValue);
+                        }
+                    }
+                    else if (inkVariableType == typeof(bool))
+                    {
+                        if (fungusVariableType == typeof(bool))
+                        {
+                            flowchart.SetBooleanVariable(inkVariableName, (bool)inkVariableNewValue);
+                        }
+                        else // converts bool to int
+                        {
+                            flowchart.SetIntegerVariable(inkVariableName, ((bool)inkVariableNewValue ? 1 : 0));
                         }
                     }
                     else if (inkVariableType == typeof(string))
@@ -641,7 +652,7 @@ namespace InkFungus
                         string[] listVariableParts = SplitFungusVariableName(fungusVariable.Key);
                         if (listVariableParts.Length <= 1)
                         {
-                            story.variablesState[fungusVariable.Key] = (boolValue ? 1 : 0);
+                            story.variablesState[fungusVariable.Key] = boolValue;
                         }
                         else
                         {
