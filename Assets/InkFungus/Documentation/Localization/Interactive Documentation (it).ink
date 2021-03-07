@@ -621,7 +621,7 @@ For this reason, the checkpoint logic is applied to language switching in the Ga
 = Localization_testable
 Ciò significa che se la persona che gioca passa a una nuova lingua, deve cominciare dall'ultimo checkpoint.
 Perciò abbiamo lo slot di salvataggio "precheckpoint": è il punto fin dove riavvolgiamo la nostra storia, quando cambiamo lingua.
-Puoi provarlo cliccando sui bottoni delle lingue proprio ora.
+Puoi provarlo cliccando proprio adesso sul bottone della lingua alternativa.
 Cliccare sul bottone eseguirà il nuovo comando "Ink/Switch Language" con la sigla linguistica "it" (italiano) come argomento.
 -> Localization_backtoenglish
 

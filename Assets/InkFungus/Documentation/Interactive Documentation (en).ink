@@ -621,7 +621,7 @@ For this reason, the checkpoint logic is applied to language switching in the Ga
 = Localization_testable
 This means that if the player switches to a new language, they have to start from the last checkpoint.
 That's why we have the "precheckpoint" save slot: that's where we rewind our story back to, when we switch language.
-You can test this by clicking on the language buttons right now.
+You can test this by clicking on the alternate-language button right now.
 Clicking on the button will execute the new command "Ink/Switch Language" with the "it" (Italian) language tag as argument.
 -> Localization_backtoenglish
 
