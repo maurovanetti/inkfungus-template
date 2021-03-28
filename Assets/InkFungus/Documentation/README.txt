@@ -1,5 +1,5 @@
 ===============================================================================
-	INK-FUNGUS GATEWAY version 1.0 (Febuary 20, 2021)
+	INK-FUNGUS GATEWAY version 1.0.2 (March 28, 2021)
 	A free tool to create narrative-driven videogames with Unity, Ink and Fungus
 ===============================================================================
 Requirements:
