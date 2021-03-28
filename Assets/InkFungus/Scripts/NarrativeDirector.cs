@@ -315,7 +315,7 @@ namespace InkFungus
         {            
             story.ChoosePathString(pathString);
             BroadcastToFungus(textResumeMessage);
-            Narrate();
+            Resume(true);
         }
 
         public void Idle()
@@ -333,9 +333,9 @@ namespace InkFungus
             BroadcastToFungus(textPauseMessage);
         }
 
-        public void Resume()
+        public void Resume(bool force = false)
         {
-            if (pause)
+            if (pause || force)
             {
                 pause = false;
                 pauseTime = 0;
