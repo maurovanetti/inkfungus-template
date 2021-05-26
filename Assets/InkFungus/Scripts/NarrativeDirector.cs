@@ -37,7 +37,7 @@ namespace InkFungus
 
         [Header("Advanced Settings")]
         public string dialogRegex =
-        @"^(?<character>[\w\- ]*)(\?(?<portrait>[\w\-]+))? ""(?<text>((""[^""]*"")|(.))+?)""?[ ]*$";
+        @"^(?<character>[\w\- ]*)(\?(?<portrait>[\w\- ]+))? ""(?<text>((""[^""]*"")|(.))+?)""?[ ]*$";
         public Flowchart gatewayFlowchart;
         public float defaultChoiceTime = 5f;
 
