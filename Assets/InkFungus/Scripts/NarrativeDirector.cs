@@ -314,7 +314,6 @@ namespace InkFungus
         public void JumpTo(string pathString)
         {            
             story.ChoosePathString(pathString);
-            BroadcastToFungus(textResumeMessage);
             Resume(true);
         }
 
