@@ -66,6 +66,9 @@ namespace InkFungus
         private const string ListItemSeparator = "__";
         private readonly string[] ListItemSeparators = { ListItemSeparator };
 
+        // Used to immediately stop dialogue
+        private bool immediateStop = false;
+
         private class Flag
         {
             public bool ordinaryValue;
@@ -332,6 +335,11 @@ namespace InkFungus
             BroadcastToFungus(textPauseMessage);
         }
 
+        public void CutDialogue()
+        {
+            immediateStop = true;
+        }
+
         public void Resume(bool force = false)
         {
             if (pause || force)
@@ -368,6 +376,15 @@ namespace InkFungus
                 string line = story.currentText;
                 Debug.Log("»" + line);
                 ProcessTags(story.currentTags);
+
+                if (immediateStop)
+                {
+                    immediateStop = false;
+                    pauseTime = float.PositiveInfinity;
+                    Idle();
+                    return;
+                }
+
                 bool verbatim = flags["verbatim"].Get();
                 Match dialogLine = null;
                 Sprite portrait = null;
