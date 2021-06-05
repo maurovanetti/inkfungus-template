@@ -1,4 +1,4 @@
-﻿/*
+/*
 ===============================================================================
 This is the interactive documentation in English for the Ink-Fungus Gateway 
 with just a few lines in Italian, to test the language switch feature.

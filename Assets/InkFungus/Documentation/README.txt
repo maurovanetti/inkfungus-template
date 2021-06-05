@@ -1,9 +1,9 @@
 ===============================================================================
-	INK-FUNGUS GATEWAY version 1.0.2 (March 28, 2021)
+	INK-FUNGUS GATEWAY version 1.0.3 (June 5, 2021)
 	A free tool to create narrative-driven videogames with Unity, Ink and Fungus
 ===============================================================================
 Requirements:
-- Create a Unity 2019.3 project.
+- Create a Unity 2019.4 project.
 - Import the Ink Unity Integration plugin (from the Asset Store or GitHub). 
 - Import Fungus (from the Asset Store or GitHub).
 
@@ -19,4 +19,6 @@ Contribute:
 
 ===============================================================================
 	Created by Mauro Vanetti, Pavia, Italy
-===============================================================================
+	Contributors:
+	- Josh Kennedy (https://github.com/joshjke)
+===============================================================================	

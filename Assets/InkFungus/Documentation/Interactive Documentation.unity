@@ -172,6 +172,7 @@ MonoBehaviour:
     ]*$
   gatewayFlowchart: {fileID: 1697729504}
   defaultChoiceTime: 5
+  logging: 0
 --- !u!4 &1707196
 Transform:
   m_ObjectHideFlags: 0
@@ -11721,8 +11722,7 @@ MonoBehaviour:
     height: 859
   selectedBlocks:
   - {fileID: 1697729506}
-  selectedCommands:
-  - {fileID: 1697729507}
+  selectedCommands: []
   variables:
   - {fileID: 1697729505}
   description: 
@@ -14113,8 +14113,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 61dddfdc5e0e44ca298d8f46f7f5a915, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  selectedFlowchart: {fileID: 139470998013196345, guid: dd709e660809b6f4f98f75d490b7b618,
-    type: 3}
+  selectedFlowchart: {fileID: 1697729504}
 --- !u!4 &2024658675
 Transform:
   m_ObjectHideFlags: 1
