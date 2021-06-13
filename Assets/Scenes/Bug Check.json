@@ -1,1 +1,0 @@
-﻿{"inkVersion":20,"root":[[{"->":"Intro"},["done",{"#f":5,"#n":"g-0"}],null],"done",{"Intro":["^Whatever.","\n",{"->":"Knot"},{"#f":1}],"Knot":[{"->":".^.stitch"},{"stitch":["^One-liner.","\n","done",{"#f":1}],"#f":1}],"#f":1}],"listDefs":{}}

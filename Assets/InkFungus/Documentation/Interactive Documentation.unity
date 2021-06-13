@@ -8125,10 +8125,8 @@ MonoBehaviour:
     y: -340
     width: 1114
     height: 859
-  selectedBlocks:
-  - {fileID: 1357082731}
-  selectedCommands:
-  - {fileID: 1357082717}
+  selectedBlocks: []
+  selectedCommands: []
   variables: []
   description: 
   stepPause: 0
@@ -14113,7 +14111,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 61dddfdc5e0e44ca298d8f46f7f5a915, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  selectedFlowchart: {fileID: 1697729504}
+  selectedFlowchart: {fileID: 1357082713}
 --- !u!4 &2024658675
 Transform:
   m_ObjectHideFlags: 1
