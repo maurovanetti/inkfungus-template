@@ -801,6 +801,7 @@ namespace InkFungus
             string cPath = new StoryStateWrapper(story.state).cPath;
             if (cPath == null)
             {
+                Debug.LogWarning("cPath is null, cannot check if knot.stitch changed");
                 return false;
             }
 
