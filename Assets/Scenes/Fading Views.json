@@ -1,0 +1,1 @@
+﻿{"inkVersion":20,"root":[[{"->":"View_1"},["done",{"#f":5,"#n":"g-0"}],null],"done",{"View_1":["^This is the first view. ",{"#":"quiet"},"\n",{"->":"View_2"},{"#f":1}],"View_2":["^This is the second view.","\n","done",{"#f":1}],"#f":1}],"listDefs":{}}
