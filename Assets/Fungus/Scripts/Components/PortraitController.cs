@@ -390,7 +390,7 @@ namespace Fungus
         /// </summary>
         public virtual void MoveToFront(PortraitOptions options)
         {
-            options.character.State.portraitImage.transform.SetSiblingIndex(options.character.State.portraitImage.transform.parent.childCount);
+            options.character.State.holder.SetSiblingIndex(options.character.State.holder.parent.childCount);
             options.character.State.display = DisplayType.MoveToFront;
             FinishCommand(options);
         }
@@ -438,7 +438,17 @@ namespace Fungus
 
             options.character.State.SetPortraitImageBySprite(options.portrait);
             options.character.State.portraitImage.rectTransform.gameObject.SetActive(true);
-            LeanTween.alpha(options.character.State.portraitImage.rectTransform, 1f, duration).setEase(stage.FadeEaseType).setRecursive(false);
+            
+            if(options.character.State.portraitImage.color != Color.white)
+            {
+                LeanTween.color(options.character.State.portraitImage.rectTransform, Color.white, duration)
+                    .setEase(stage.FadeEaseType)
+                    .setRecursive(false);
+            }
+
+            LeanTween.alpha(options.character.State.portraitImage.rectTransform, 1f, duration)
+                .setEase(stage.FadeEaseType)
+                .setRecursive(false);
 
             DoMoveTween(options);
 
