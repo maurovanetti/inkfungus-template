@@ -136,7 +136,24 @@ If you pressed the button (thus executing "Ink/Resume Narrative"), you've just c
 Both kinds of pauses can be useful when you want to suspend the narrative to show something with Fungus.
 When pausing or resuming happen, an "ink pause" or "ink resume" message is broadcast to all Fungus flowcharts, which can react accordingly.
 For instance, the Start/Resume button is displayed or hidden when either message is received.
--> Conversation_submenu
+A similar tag is "wait".
++ Explain me "wait".
+	-> Wait
++ I will check it later.
+	-> Conversation_submenu
+	
+= Wait
+# wait
+We waited for your click BEFORE showing this line.
+Sometimes you don't want to have a pause after a line: you want it before the line is displayed.
+In order to pause the narrative flow before displaying a new line, you can use the "wait" tag.
+The difference is clear when you want to take a break at the beginning of a new knot or stitch.
+For example, you may want to have some time for a screen fade.
+"wait" works pretty much like "pause": it can be indefinite or include a duration like "wait 3.5".
++ Can I see a working example?
+	Check the "Fading Views" scene in the Assets\\InkFungus\\Documentation\\Examples subfolder.
++ Alright.
+- -> Conversation_submenu
 
 = Characters
 Text lines can be "plain", like this one. This line contain no indication about who's speaking. # saystyle plain
@@ -205,6 +222,7 @@ Which {|other }events do you want to know about?
 	
 = Events_pauseresume
 When pausing or resuming happen, an "ink pause" or "ink resume" message is broadcast to all Fungus flowcharts.
+"ink pause" and "ink resume" messages are broadcast for "wait" tags too.
 This can be useful to rearrange the screen and switch from the narrative mode to the visual mode, enable/disable controls etc.
 When the story reaches a stop, an "ink stop" message is broadcast to all Fungus flowcharts.
 The stop event can mark the very end of the game or just a dead end of the narrative flow.

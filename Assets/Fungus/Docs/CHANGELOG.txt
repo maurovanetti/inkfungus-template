@@ -4,6 +4,44 @@ Changelog {#changelog}
 Unreleased
 ======
 
+v3.13.7
+======
+
+## Fixed
+ - Add missing VariableDrawer for ObjectVariable. Thanks to CG-Tespy.
+ - Fix double duplication of blocks in flowchart window. Thanks to ongjinwen.
+ - Dialog ClickAnywhere not supports ignore click delay. Thanks to breadnone.
+ - SetNextLineFlag only flags if Dialog is actually active/writing. Thanks to breadnone. 
+ - TextAdapter with TMPro, now forces mesh update on text change. Fixes cases where a Say/Writer would expect RevealedCharacters to be current but would be previous frame stale value.
+ - Camera Fade clears local callback before execution, fixes #973.
+ - Force portraits undimmed on change sprite.
+ - Correct CommandList focus and selection when adding a new command. Thanks to Arylos07.
+
+## Changed
+ - Block will LogError when an exception is caught from a Command being Executed.
+ - WriterAudio.GetSecondsRemaining reports 0 if not playing. Thanks to KVinS.
+ - Add special case that skips variation logic for sequences that contains no elements, making no change.
+ - Add NotifyEnd to Writer WaitForInputAndClear logic. Thanks to wolfrug.
+ - Drag event handlers now only trigger from direct drags, not just movement. Thanks to CG-Tespy.
+ - NarrativeLogMenu can limit the length of it's output, quick fix for narrative logs that would overflow the max ushort vert limit. Thanks to breadnone.
+
+v3.13.6
+======
+
+## Fixed
+
+ - LoadVariable leaves variable unchanged if key not found, previously was setting to default. Thanks to CG-Tespy.
+ - Portrait MoveToFront now correctly moves holder rather than underlying image itself. Thanks to iwanPlays.
+
+v3.13.5
+======
+
+## Fixed
+
+ - TextAdapter use of Visible Characters null and bounds checked, required for TMPro 3.x
+ - FlowchartWindow styles force set expected values, seems required to deal with changes to UI style defaults in more recent Unity.
+ - InvokeMethod command uses more explicit search and more informative log if error is found in editor.
+
 
 v3.13.4
 ======

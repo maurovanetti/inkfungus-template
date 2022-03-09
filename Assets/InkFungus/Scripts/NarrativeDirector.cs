@@ -1,12 +1,12 @@
 ﻿using Fungus;
 using Ink.Runtime;
+using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Globalization;
+using System.IO;
 using System.Text.RegularExpressions;
 using UnityEngine;
-using System;
-using System.IO;
-using System.Globalization;
 
 namespace InkFungus
 {
@@ -61,7 +61,9 @@ namespace InkFungus
         // Configurations driven by Ink tags:
         private bool pause = true;
         private float pauseTime = float.PositiveInfinity;
+        private float waitTime = 0;
         private float resumeTime = float.PositiveInfinity;
+        private Action onResume;
         private float choiceTime;
 
         // Inner states needed for loading:
@@ -327,29 +329,34 @@ namespace InkFungus
             Resume(true);
         }
 
-        public void Idle()
+        private void AfterDelayDo(Action action, float delay)
         {
             pause = true;
-            resumeTime = Time.time + pauseTime;
+            onResume = action;
+            resumeTime = Time.time + delay;
             if (resumeTime == float.PositiveInfinity)
             {
                 Log(LogLevel.Rich, "Idling until further notice");
             }
             else
             {
-                Log(LogLevel.Rich, "Idling for " + pauseTime + "s");
+                Log(LogLevel.Rich, "Idling for " + delay + "s");
             }
             BroadcastToFungus(textPauseMessage);
         }
 
+        public void Idle()
+        {
+            AfterDelayDo(Narrate, pauseTime);
+        }
+        
         public void Resume(bool force = false)
         {
             if (pause || force)
             {
                 pause = false;
-                pauseTime = 0;
                 BroadcastToFungus(textResumeMessage);
-                Narrate();
+                onResume();                
             }
         }
 
@@ -440,7 +447,18 @@ namespace InkFungus
                     }
                 };
                 bool fadeWhenDone = story.canContinue || flags["hide"].Get();
-                StartCoroutine(sayDialogToUse.DoSay(line, true, !flags["auto"].Get(), fadeWhenDone, true, true, null, onSayComplete));
+                Action say = delegate ()
+                {
+                    StartCoroutine(sayDialogToUse.DoSay(line, true, !flags["auto"].Get(), fadeWhenDone, true, true, null, onSayComplete));
+                };       
+                if (waitTime > 0)
+                {
+                    AfterDelayDo(say, waitTime);
+                }
+                else
+                {
+                    say();
+                }
                 AutoSave();
             }
             else
@@ -507,6 +525,8 @@ namespace InkFungus
 
         private void ProcessTags(List<string> tags)
         {
+            pauseTime = 0;
+            waitTime = 0;
             foreach (string tag in tags)
             {
                 Log(LogLevel.Rich, "Processing tag: " + tag);
@@ -526,7 +546,7 @@ namespace InkFungus
                 }
                 switch (command)
                 {
-                    case "pause": // eg. # pause 2.5
+                    case "pause": // e.g. # pause 2.5
                         if (defaultArgument)
                         {
                             pauseTime = float.PositiveInfinity;
@@ -539,12 +559,30 @@ namespace InkFungus
                             }
                             catch
                             {
-                                Debug.LogWarning("Could not parse argument " + argument + " for command #pause");
+                                Debug.LogWarning($"Could not parse argument {argument} for command #{command}");
                             }
                         }
                         break;
 
-                    case "timer": // eg. # timer 3.8
+                    case "wait": // e.g. # wait 4.1
+                        if (defaultArgument)
+                        {
+                            waitTime = float.PositiveInfinity;
+                        }
+                        else
+                        {
+                            try
+                            {
+                                waitTime = float.Parse(argument, CultureInfo.InvariantCulture.NumberFormat);
+                            }
+                            catch
+                            {
+                                Debug.LogWarning($"Could not parse argument {argument} for command #{command}");
+                            }
+                        }
+                        break;
+
+                    case "timer": // e.g. # timer 3.8
                         if (defaultArgument)
                         {
                             choiceTime = defaultChoiceTime;
@@ -557,7 +595,7 @@ namespace InkFungus
                             }
                             catch
                             {
-                                Debug.LogWarning("Could not parse argument " + argument + " for command #timer");
+                                Debug.LogWarning($"Could not parse argument {argument} for command #{command}");
                             }
                         }
                         break;
@@ -579,7 +617,7 @@ namespace InkFungus
                         break;
 
                     default:
-                        BroadcastToFungus(command + " " + argument); // simple as that
+                        BroadcastToFungus($"{command} {argument}"); // simple as that
                         break;
                 }
             }
@@ -603,12 +641,12 @@ namespace InkFungus
 
         public void OnOptionChosen(int choiceIndex)
         {
-            Log(LogLevel.Narrative, "Option #" + choiceIndex + " chosen");
+            Log(LogLevel.Narrative, $"Option #{choiceIndex} chosen");
             story.ChooseChoiceIndex(choiceIndex);
             if (!flags["echo"].Get() && story.canContinue)
             {
                 string discardedLine = story.Continue();
-                Log(LogLevel.Verbose, "X»" + discardedLine);
+                Log(LogLevel.Verbose, $"X»{discardedLine}");
                 AutoSave();
             }
             Narrate();
@@ -616,7 +654,7 @@ namespace InkFungus
 
         public void OnVariablesChanged(Flowchart origin)
         {
-            Log(LogLevel.Verbose, "OnVariablesChange origin=" + origin.name);
+            Log(LogLevel.Verbose, $"OnVariablesChange origin={origin.name}");
             if (beforeFirstSync)
             {
                 Log(LogLevel.Verbose, "Still initializing, Fungus->Ink sync request ignored");
@@ -646,25 +684,25 @@ namespace InkFungus
                     if (fungusVariableType == typeof(int))
                     {
                         int intValue = (fungusVariable as IntegerVariable).Value;
-                        Log(LogLevel.Rich, fungusVariable.Key + "=" + intValue + " (Fungus->Ink)");
+                        Log(LogLevel.Rich, $"{fungusVariable.Key}={intValue} (Fungus->Ink)");
                         story.variablesState[fungusVariable.Key] = intValue;
                     }
                     else if (fungusVariableType == typeof(string))
                     {
                         string stringValue = (fungusVariable as StringVariable).Value;
-                        Log(LogLevel.Rich, fungusVariable.Key + "=" + stringValue + " (Fungus->Ink)");
+                        Log(LogLevel.Rich, $"{fungusVariable.Key}={stringValue} (Fungus->Ink)");
                         story.variablesState[fungusVariable.Key] = stringValue;
                     }
                     else if (fungusVariableType == typeof(float))
                     {
                         float floatValue = (fungusVariable as FloatVariable).Value;
-                        Log(LogLevel.Rich, fungusVariable.Key + "=" + floatValue + " (Fungus->Ink)");
+                        Log(LogLevel.Rich, $"{fungusVariable.Key}={floatValue} (Fungus->Ink)");
                         story.variablesState[fungusVariable.Key] = floatValue;
                     }
                     else if (fungusVariableType == typeof(bool))
                     {
                         bool boolValue = (fungusVariable as BooleanVariable).Value;
-                        Log(LogLevel.Rich, fungusVariable.Key + "=" + boolValue + " (Fungus->Ink)");
+                        Log(LogLevel.Rich, $"{fungusVariable.Key}={boolValue} (Fungus->Ink)");
                         string[] listVariableParts = SplitFungusVariableName(fungusVariable.Key);
                         if (listVariableParts.Length <= 1)
                         {
