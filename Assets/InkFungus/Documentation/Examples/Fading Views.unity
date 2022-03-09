@@ -1475,8 +1475,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   nodeRect:
     serializedVersion: 2
-    x: 155
-    y: 78
+    x: 162
+    y: 76
     width: 87
     height: 40
   tint: {r: 1, g: 1, b: 1, a: 1}
@@ -1619,8 +1619,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   nodeRect:
     serializedVersion: 2
-    x: 340
-    y: 77
+    x: 295
+    y: 76
     width: 88
     height: 40
   tint: {r: 1, g: 1, b: 1, a: 1}
@@ -1701,8 +1701,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   nodeRect:
     serializedVersion: 2
-    x: 506
-    y: 71
+    x: 442
+    y: 74
     width: 89
     height: 40
   tint: {r: 1, g: 1, b: 1, a: 1}
