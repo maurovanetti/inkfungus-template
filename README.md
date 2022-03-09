@@ -27,7 +27,7 @@ Hopefully, you can become part of the community of developers of the Ink-Unity G
 ### How can I set up a scene for the Gateway?
 
 - Create an empty scene or open a scene you want to augment with Ink and Fungus.
-- [Import the Fungus package](https://assetstore.unity.com/packages/tools/game-toolkits/fungus-34184) in the scene.
+- [Import the Fungus package](https://github.com/snozbot/fungus/releases/) in the scene. *Lite* packages are OK.
 - [Import the Ink Unity Integration package](https://assetstore.unity.com/packages/tools/integration/ink-unity-integration-60055) in the scene.
 - Find the *Tools > Fungus > Create* submenu. You have to create 3 objects from there:
   - First of all, create the *Ink-Fungus Gateway* in your scene. Click on *Tools > Fungus > Create > Ink-Fungus Gateway*.
@@ -64,13 +64,19 @@ The new Fungus command `Ink/Resume Narrative` is the way to go when you want Ink
 
 Ink scripts can contain tags. An Ink tag is a hash sign (*#*) followed by one or more words. Some tags are picked up by the `Narrative Director` and interpreted as special instructions.
 
-`# pause`: the narrative will pause indefinitely after the line is displayed. Such indefinite pausing can only be ended by explicitly resuming the narrative flow.
+`# pause`: the narrative will pause indefinitely *after* the line is displayed. Such indefinite pausing can only be ended by explicitly resuming the narrative flow.
 
-`# pause N`: the narrative will pause for *N* seconds, where *N* can be any float number such as *10* or *3.5*.
+`# pause N`: *after* the line is displayed, the narrative will pause for *N* seconds, where *N* can be any float number such as *10* or *3.5*.
+
+`# wait`: the narrative will pause indefinitely *before* the line is displayed. Such indefinite waiting can only be ended by explicitly resuming the narrative flow.
+
+`# wait N`: *before* the line is displayed, the narrative will pause for *N* seconds, where *N* can be any float number such as *10* or *3.5*.
 
 The Fungus command `Ink/Resume Narrative` terminates the pause and resumes the story flow and it works both for indefinite and timed pauses.
 
-When pausing or resuming happens, an *ink pause* or *ink resume* message is broadcast to all Fungus flowcharts, which can react accordingly.
+When pausing/waiting or resuming happens, an *ink pause* or *ink resume* message is broadcast to all Fungus flowcharts, which can react accordingly.
+
+The `# wait` tag was introduced for the common case in which the narrative flow needs some time to set up the view (e.g. to perform a fade animation) at the beginning of a new Ink knot or stitch. Using `# wait`, the event marking the new knot/stitch (*ink at*) will be triggered before the line is displayed. A working example can be found in the *Documentation\Examples* subfolder, it's called *Fading Views*.
 
 ### Characters
 
@@ -132,7 +138,7 @@ Such messages may be intercepted by Fungus flowcharts in order to trigger the ac
 
 ### Pause, resume and stop events
 	
-When pausing or resuming happen, an *ink pause* or *ink resume* message is broadcast to all Fungus flowcharts. This can be useful to rearrange the screen and switch from the narrative mode to the visual mode, enable/disable controls etc.
+When pausing, waiting or resuming happen, an *ink pause* or *ink resume* message is broadcast to all Fungus flowcharts. This can be useful to rearrange the screen and switch from the narrative mode to the visual mode, enable/disable controls etc.
 
 When the story reaches a stop, an "ink stop" message is broadcast to all Fungus flowcharts. The stop event can mark the very end of the game or just a dead end of the narrative flow. The `Ink/Jump To` command can be used to get out of such dead ends. An *ink resume* message is also broadcast when, usually after a stop, a jump command is issued.
 
