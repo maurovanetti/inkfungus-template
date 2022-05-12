@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 using Ink.Runtime;
+using System.Collections.Generic;
 
 namespace InkFungus
 {
@@ -8,17 +9,22 @@ namespace InkFungus
 
     class StoryStateWrapper
     {
-        public readonly string cPath;
+        public readonly string cPath = null;
 
         public StoryStateWrapper(StoryState state)
-        {                        
+        {
             cPath = state.currentPathString;
             if (cPath == null && state.currentChoices.Count > 0) {
                 cPath =  state.currentChoices[0].targetPath.ToString();
             }
             if (cPath == null) // Again! Means that this is END/DONE
             {
-                cPath = state.previousPointer.path.ToString();
+                // Try and recover a cPath, but often it's not possible
+                Pointer previousPointer = state.previousPointer;
+                if (!previousPointer.isNull)
+                {
+                    cPath = state.previousPointer.path.ToString();
+                }
             }
         }
     }

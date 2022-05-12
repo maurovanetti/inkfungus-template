@@ -37,7 +37,7 @@ namespace InkFungus
 
         [Header("Advanced Settings")]
         public string dialogRegex =
-        @"^(?<character>[\w\- ]*)(\?(?<portrait>[\w\- ]+))? ""(?<text>((""[^""]*"")|(.))+?)""?[ ]*$";
+        @"^(?<character>[\w\- ]*)(\?(?<portrait>[\w\-]+))? ""(?<text>([^""]*(""[^""]+""))*[^""]*)""?[ ]*$";
         public Flowchart gatewayFlowchart;
         public float defaultChoiceTime = 5f;
 
@@ -446,7 +446,7 @@ namespace InkFungus
                         Log(LogLevel.Verbose, "Discarding orphan action associated with expired narration handle " + originalNarrationHandle);
                     }
                 };
-                bool fadeWhenDone = story.canContinue || flags["hide"].Get();
+                bool fadeWhenDone = flags["hide"].Get() || story.canContinue || story.currentChoices.Count == 0;
                 Action say = delegate ()
                 {
                     StartCoroutine(sayDialogToUse.DoSay(line, true, !flags["auto"].Get(), fadeWhenDone, true, true, null, onSayComplete));
@@ -839,7 +839,9 @@ namespace InkFungus
             string cPath = new StoryStateWrapper(story.state).cPath;
             if (cPath == null)
             {
-                Debug.LogWarning("cPath is null, cannot check if knot.stitch changed");
+                // cPath is null, cannot check if knot.stitch changed
+                Debug.LogWarning("Lost track of knot.stitch, assume it's unchanged. " + 
+                    "In order to avoid this, don't END immediately after divert. Try with DONE?");
                 return false;
             }
 

@@ -61,10 +61,11 @@ MonoBehaviour:
   saveMessage: save
   loadMessage: load
   newKnotStitchMessage: at
-  dialogRegex: ^(?<character>[\w\- ]*)(\?(?<portrait>[\w\-]+))? "(?<text>(("[^"]*")|([^"]+))+?)"?[
+  dialogRegex: ^(?<character>[\w\- ]*)(\?(?<portrait>[\w\-]+))? "(?<text>([^"]*("[^"]+"))*[^"]*)"?[
     ]*$
   gatewayFlowchart: {fileID: 4558443714015105650}
   defaultChoiceTime: 5
+  logging: 0
 --- !u!1 &4558443714015105545
 GameObject:
   m_ObjectHideFlags: 0
