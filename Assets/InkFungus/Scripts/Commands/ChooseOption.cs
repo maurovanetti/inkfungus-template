@@ -4,7 +4,7 @@ using UnityEngine;
 using Fungus;
 using InkFungus;
 
-[CommandInfo("Ink", "Choose Option", "Chooses one option in a branching point of the Ink story.")]
+[CommandInfo("Ink", "Choose Option", "Chooses an option in a branching point of the Ink story.")]
 public class ChooseOption : InkCommand
 {
     public IntegerData optionIndex;

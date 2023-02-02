@@ -1,4 +1,4 @@
-﻿using Fungus;
+using Fungus;
 using Ink.Runtime;
 using System;
 using System.Collections;
@@ -7,6 +7,7 @@ using System.Globalization;
 using System.IO;
 using System.Text.RegularExpressions;
 using UnityEngine;
+using UnityEngine.EventSystems;
 
 namespace InkFungus
 {
@@ -40,6 +41,7 @@ namespace InkFungus
         @"^(?<character>[\w\- ]*)(\?(?<portrait>[\w\-]+))? ""(?<text>([^""]*(""[^""]+""))*[^""]*)""?[ ]*$";
         public Flowchart gatewayFlowchart;
         public float defaultChoiceTime = 5f;
+        public string hiddenOptionPrefix = "@";
 
         [Header("Log Messages")]
         public LogLevel logging = LogLevel.Verbose;
@@ -324,7 +326,7 @@ namespace InkFungus
         }
 
         public void JumpTo(string pathString)
-        {            
+        {
             story.ChoosePathString(pathString);
             Resume(true);
         }
@@ -349,14 +351,14 @@ namespace InkFungus
         {
             AfterDelayDo(Narrate, pauseTime);
         }
-        
+
         public void Resume(bool force = false)
         {
             if (pause || force)
             {
                 pause = false;
                 BroadcastToFungus(textResumeMessage);
-                onResume();                
+                onResume();
             }
         }
 
@@ -366,13 +368,13 @@ namespace InkFungus
         }
 
         private void Narrate()
-        {            
+        {
             if (story.canContinue || loading)
             {
                 foreach (Flag flag in flags.Values)
                 {
                     flag.Reset();
-                }                
+                }
                 if (!loading)
                 {
                     story.Continue();
@@ -410,7 +412,7 @@ namespace InkFungus
                         SayDialog specificSayDialog = speaker.SetSayDialog;
                         if (speaker.SetSayDialog != null && speaker.SetSayDialog != sayDialog)
                         {
-                            sayDialogToUse = speaker.SetSayDialog;                            
+                            sayDialogToUse = speaker.SetSayDialog;
                         }
                         sayDialogToUse.SetCharacter(speaker);
                     }
@@ -450,7 +452,7 @@ namespace InkFungus
                 Action say = delegate ()
                 {
                     StartCoroutine(sayDialogToUse.DoSay(line, true, !flags["auto"].Get(), fadeWhenDone, true, true, null, onSayComplete));
-                };       
+                };
                 if (waitTime > 0)
                 {
                     AfterDelayDo(say, waitTime);
@@ -488,7 +490,8 @@ namespace InkFungus
                             Debug.LogError("Choice block #" + choice.index + " does not exist in the Gateway Flowchart");
                         }
                         Match dialogLine = null;
-                        if (!flags["verbatim"].Get())
+                        bool hiddenOption = (HiddenOptionLabel(line) != null);
+                        if (!hiddenOption && !flags["verbatim"].Get())
                         {
                             dialogLine = compiledDialogRegex.Match(line);
                             if (dialogLine.Success)
@@ -496,7 +499,7 @@ namespace InkFungus
                                 line = dialogLine.Groups["text"].Value;
                             }
                         }
-                        menuDialog.AddOption(line, true, false, callbackBlock);
+                        menuDialog.AddOption(line, true, hiddenOption, callbackBlock);
                         if (choice == choices[0] && flags["timer"].Get())
                         {
                             menuDialog.ShowTimer(choiceTime, callbackBlock);
@@ -637,6 +640,34 @@ namespace InkFungus
             {
                 flags[flagName].SetExceptional(value);
             }
+        }
+
+        private string HiddenOptionLabel(string optionText)
+        {
+            string trimmed = optionText.Trim();
+            if (!trimmed.StartsWith(hiddenOptionPrefix))
+            {
+                return null;
+            }
+            return trimmed.Substring(hiddenOptionPrefix.Length).TrimStart();
+        }
+
+        public void OnHiddenOptionChosen(string choiceLabel)
+        {
+            foreach (Choice choice in story.currentChoices)
+            {
+                if (HiddenOptionLabel(choice.text) == choiceLabel)
+                {
+                    YesNo("echo", false); // Prevents echoing of the choice label
+                    EventSystem.current.SetSelectedGameObject(null);
+                    menuDialog.StopAllCoroutines(); // Stops timeout                    
+                    menuDialog.Clear();
+                    menuDialog.HideSayDialog();
+                    OnOptionChosen(choice.index);
+                    return;
+                }
+            }
+            Debug.LogWarning("Could not find choice with label «" + choiceLabel + "»");
         }
 
         public void OnOptionChosen(int choiceIndex)
@@ -835,12 +866,12 @@ namespace InkFungus
         }
 
         public bool CheckKnotStitchChanged()
-        {            
+        {
             string cPath = new StoryStateWrapper(story.state).cPath;
             if (cPath == null)
             {
                 // cPath is null, cannot check if knot.stitch changed
-                Debug.LogWarning("Lost track of knot.stitch, assume it's unchanged. " + 
+                Debug.LogWarning("Lost track of knot.stitch, assume it's unchanged. " +
                     "In order to avoid this, don't END immediately after divert. Try with DONE?");
                 return false;
             }
@@ -1000,7 +1031,7 @@ namespace InkFungus
                 else
                 {
                     SyncListToFungus(listVariableParts[0], story.variablesState[syncVariableName]);
-                }                
+                }
             }
         }
 
