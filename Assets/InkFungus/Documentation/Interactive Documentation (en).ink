@@ -590,6 +590,12 @@ Wauro "Which of the obscure configurations in the Advanced Settings area of the 
 	-> Choice_time
 +	The Hidden Option Prefix.
 	-> Hidden_option_prefix
++	The flag to enable the save and load system.
+	It does what it says.
+	If you don't need saving and loading + you don't need localization, feel free to uncheck this.
+	If you have localization in your project, your choice will be overriden to always be enabled.
+	The reason for this is that when you switch language, your latest autosaved state is restored.
+	-> Menu
 +	Bring me back to the main menu. I'm scared and I feel unwell.
 	-> Menu
 
