@@ -42,6 +42,7 @@ namespace InkFungus
         public Flowchart gatewayFlowchart;
         public float defaultChoiceTime = 5f;
         public string hiddenOptionPrefix = "@";
+        public bool enableSaveAndLoadSystem = true;
 
         [Header("Log Messages")]
         public LogLevel logging = LogLevel.Verbose;
@@ -141,6 +142,13 @@ namespace InkFungus
             flags.Add("auto", new Flag(autoProceed));
             flags.Add("verbatim", new Flag(ignoreDialogRegex));
             flags.Add("timer", new Flag(choiceTimer));
+            if (GetComponents<AlternateLanguageNarrativeDirector>().Length > 0)
+            {
+                if (!enableSaveAndLoadSystem) {
+                    Debug.LogWarning("Save and load system forcibly enabled to allow language switching");
+                    enableSaveAndLoadSystem = true;
+                }
+            }
         }
 
         private void SyncListToFungus(string inkListName, object inkListNewValue)
@@ -867,25 +875,28 @@ namespace InkFungus
 
         public void Save(string originSlot, string destinationSlot)
         {
-            if (originSlot == destinationSlot)
+            if (enableSaveAndLoadSystem)
             {
-                Debug.LogError("Save failed: origin and destination slots are the same (" + originSlot + ")");
-                return;
-            }
-            Log(LogLevel.Verbose, "Save from " + GetSavePath(originSlot) + " to " + GetSavePath(destinationSlot));
-            BroadcastToFungus(saveMessage);
-            BroadcastToFungus(saveMessage + " " + destinationSlot);
-            try
-            {
-                File.Copy(GetSavePath(originSlot), GetSavePath(destinationSlot), true);
-                foreach (string flagName in flags.Keys)
+                if (originSlot == destinationSlot)
                 {
-                    File.Copy(GetFlagSavePath(originSlot, flagName), GetFlagSavePath(destinationSlot, flagName), true);
+                    Debug.LogError("Save failed: origin and destination slots are the same (" + originSlot + ")");
+                    return;
                 }
-            }
-            catch (Exception e)
-            {
-                Debug.LogError("Save failed: " + e.Message);
+                Log(LogLevel.Verbose, "Save from " + GetSavePath(originSlot) + " to " + GetSavePath(destinationSlot));
+                BroadcastToFungus(saveMessage);
+                BroadcastToFungus(saveMessage + " " + destinationSlot);
+                try
+                {
+                    File.Copy(GetSavePath(originSlot), GetSavePath(destinationSlot), true);
+                    foreach (string flagName in flags.Keys)
+                    {
+                        File.Copy(GetFlagSavePath(originSlot, flagName), GetFlagSavePath(destinationSlot, flagName), true);
+                    }
+                }
+                catch (Exception e)
+                {
+                    Debug.LogError("Save failed: " + e.Message);
+                }
             }
         }
 
@@ -953,20 +964,23 @@ namespace InkFungus
 
         public void AutoSave()
         {
-            string path = GetSavePath(AutoSaveSlot);
-            Log(LogLevel.Verbose, "Autosave to " + path);
-            try
+            if (enableSaveAndLoadSystem)
             {
-                foreach (string flagName in flags.Keys)
+                string path = GetSavePath(AutoSaveSlot);
+                Log(LogLevel.Verbose, "Autosave to " + path);
+                try
                 {
-                    File.WriteAllText(GetFlagSavePath(AutoSaveSlot, flagName), JsonUtility.ToJson(flags[flagName]));
+                    foreach (string flagName in flags.Keys)
+                    {
+                        File.WriteAllText(GetFlagSavePath(AutoSaveSlot, flagName), JsonUtility.ToJson(flags[flagName]));
+                    }
+                    string jsonState = story.CopyStateForBackgroundThreadSave().ToJson();
+                    StartCoroutine(BackgroundThreadSave(path, jsonState));
                 }
-                string jsonState = story.CopyStateForBackgroundThreadSave().ToJson();
-                StartCoroutine(BackgroundThreadSave(path, jsonState));
-            }
-            catch (Exception e)
-            {
-                Debug.LogError("Autosave failed at preliminary stage: " + e.Message);
+                catch (Exception e)
+                {
+                    Debug.LogError("Autosave failed at preliminary stage: " + e.Message);
+                }
             }
         }
 
@@ -982,37 +996,45 @@ namespace InkFungus
 
         private void Load(string slot, bool andContinue)
         {
-            Log(LogLevel.Rich, "Load " + GetSavePath(slot));
-            loading = !andContinue;
-            BroadcastToFungus(loadMessage);
-            BroadcastToFungus(loadMessage + " " + slot);
-            try
+            if (enableSaveAndLoadSystem)
             {
-                string json = File.ReadAllText(GetSavePath(slot));
-                story.state.LoadJson(json);
-                BroadcastToFungus(loadMessage + " ok");
+                Log(LogLevel.Rich, "Load " + GetSavePath(slot));
+                loading = !andContinue;
+                BroadcastToFungus(loadMessage);
+                BroadcastToFungus(loadMessage + " " + slot);
+                try
+                {
+                    string json = File.ReadAllText(GetSavePath(slot));
+                    story.state.LoadJson(json);
+                    BroadcastToFungus(loadMessage + " ok");
+                }
+                catch
+                {
+                    BroadcastToFungus(loadMessage + " fail");
+                    return;
+                }
+                // This is required only because variables reset to their initial state are not notified as changed:
+                SyncAllVariablesToFungus();
+                menuDialog.Clear();
+                if (pause)
+                {
+                    Resume();
+                }
+                else
+                {
+                    Narrate();
+                }
+                loading = false;
             }
-            catch
-            {
-                BroadcastToFungus(loadMessage + " fail");
-                return;
-            }
-            // This is required only because variables reset to their initial state are not notified as changed:
-            SyncAllVariablesToFungus();
-            menuDialog.Clear();
-            if (pause)
-            {
-                Resume();
-            }
-            else
-            {
-                Narrate();
-            }
-            loading = false;
         }
 
         public void SwitchLanguage(string language)
         {
+            if (!enableSaveAndLoadSystem)
+            {
+                Debug.LogError("Language switch called with save and load system disabled");
+            }
+
             Log(LogLevel.Verbose, "SwitchLanguage " + language);
             TextAsset newInk = null;
             if (language == "")

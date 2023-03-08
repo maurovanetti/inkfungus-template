@@ -175,6 +175,7 @@ MonoBehaviour:
   gatewayFlowchart: {fileID: 1697729504}
   defaultChoiceTime: 5
   hiddenOptionPrefix: '@'
+  enableSaveAndLoadSystem: 1
   logging: 0
 --- !u!4 &1707196
 Transform:
