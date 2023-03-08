@@ -59,6 +59,8 @@ namespace InkFungus
         private GlobalVariables fungusGlobalVariables;
         private Dictionary<string, List<Flowchart>> syncVariables = new Dictionary<string, List<Flowchart>>();
         private bool beforeFirstSync = true;
+        private Dictionary<int, int> visibleChoicesToInkChoices = new Dictionary<int, int>();
+        private List<string> hiddenChoices = new List<string>();
 
         // Configurations driven by Ink tags:
         private bool pause = true;
@@ -479,26 +481,41 @@ namespace InkFungus
                     {
                         menuDialog.HideSayDialog(); // probably not needed
                     }
+                    int visibleChoiceIndex = -1;
+                    visibleChoicesToInkChoices.Clear();
+                    hiddenChoices.Clear();
                     foreach (Choice choice in choices)
                     {
-                        int choiceIndex = choice.index;
+                        int inkChoiceIndex = choice.index;
                         string line = choice.text;
-                        Log(LogLevel.Narrative, choiceIndex + "»" + line);
-                        Block callbackBlock = gatewayFlowchart.FindBlock("Choose " + choiceIndex);
-                        if (callbackBlock == null)
-                        {
-                            Debug.LogError("Choice block #" + choice.index + " does not exist in the Gateway Flowchart");
-                        }
-                        Match dialogLine = null;
+                        Block callbackBlock = null;
                         bool hiddenOption = (HiddenOptionLabel(line) != null);
-                        if (!hiddenOption && !flags["verbatim"].Get())
+                        if (hiddenOption)
                         {
-                            dialogLine = compiledDialogRegex.Match(line);
-                            if (dialogLine.Success)
-                            {
-                                line = dialogLine.Groups["text"].Value;
-                            }
+                            // Hidden option, no callback through flowchart block
+                            hiddenChoices.Add(line);
+                            Log(LogLevel.Narrative, $"?»{line}");
                         }
+                        else
+                        {
+                            visibleChoiceIndex++;
+                            visibleChoicesToInkChoices.Add(visibleChoiceIndex, inkChoiceIndex);                            
+                            Log(LogLevel.Narrative, $"{visibleChoiceIndex}»{line}");
+                            callbackBlock = gatewayFlowchart.FindBlock("Choose " + visibleChoiceIndex);
+                            if (callbackBlock == null)
+                            {
+                                Debug.LogError("Choice block #" + visibleChoiceIndex + " does not exist in the Gateway Flowchart");
+                            }
+                            Match dialogLine = null;
+                            if (!flags["verbatim"].Get())
+                            {
+                                dialogLine = compiledDialogRegex.Match(line);
+                                if (dialogLine.Success)
+                                {
+                                    line = dialogLine.Groups["text"].Value;
+                                }
+                            }
+                        }                     
                         menuDialog.AddOption(line, true, hiddenOption, callbackBlock);
                         if (choice == choices[0] && flags["timer"].Get())
                         {
@@ -656,24 +673,31 @@ namespace InkFungus
         {
             foreach (Choice choice in story.currentChoices)
             {
-                if (HiddenOptionLabel(choice.text) == choiceLabel)
+                if (HiddenOptionLabel(choice.text) == choiceLabel && hiddenChoices.Contains(choice.text))
                 {
-                    YesNo("echo", false); // Prevents echoing of the choice label
+                    Log(LogLevel.Narrative, $"Hidden option \"{choice.text}\" chosen");
+                    hiddenChoices.Clear();
                     EventSystem.current.SetSelectedGameObject(null);
                     menuDialog.StopAllCoroutines(); // Stops timeout                    
                     menuDialog.Clear();
                     menuDialog.HideSayDialog();
-                    OnOptionChosen(choice.index);
+                    story.ChooseChoiceIndex(choice.index);
+                    // Hidden options are never echoed
+                    story.Continue(); 
+                    AutoSave();
+                    Narrate();
                     return;
                 }
             }
             Debug.LogWarning("Could not find choice with label «" + choiceLabel + "»");
         }
 
-        public void OnOptionChosen(int choiceIndex)
+        public void OnOptionChosen(int visibleChoiceIndex)
         {
-            Log(LogLevel.Narrative, $"Option #{choiceIndex} chosen");
-            story.ChooseChoiceIndex(choiceIndex);
+            Log(LogLevel.Narrative, $"Option #{visibleChoiceIndex} chosen");
+            int inkChoiceIndex = visibleChoicesToInkChoices[visibleChoiceIndex];
+            visibleChoicesToInkChoices.Clear();
+            story.ChooseChoiceIndex(inkChoiceIndex);
             if (!flags["echo"].Get() && story.canContinue)
             {
                 string discardedLine = story.Continue();
