@@ -1,7 +1,7 @@
 /*
 ===============================================================================
 This is the interactive documentation in English for the Ink-Fungus Gateway. 
-Version 1.2.0 created on March 8th, 2023.
+Version 1.2.0 created on March 16th, 2023.
 ===============================================================================
 */
 
