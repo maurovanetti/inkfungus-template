@@ -128,6 +128,22 @@ Branchings with different options are defined in the Ink script according to the
 
 The standard MenuDialog have a maximum of 6 option buttons. This means that the Ink script should not include more than 6 choices in any branching unless the `MenuDialog` is properly extended. In that case, the `Gateway Flowchart` must also be replaced or extended to include more than 6 options.
 
+Hidden options don't count to the 6-option limit.
+
+#### Hidden options
+
+_This is a feature introduced in version 1.2 of this Gateway._
+
+If an option starts with *@*, it's called a hidden option. Hidden options are, rather predictably, hidden. They are not displayed as buttons with text.
+
+Any kind of event can be associated to a hidden option (e.g., a click on a Fungus ClickableSprite) by using the new `Ink/Choose Hidden Option` Fungus command. This command takes one argument i.e. the hidden-option label without the leading *@* sign.
+
+This is a huge advantage because a game story can be written in Ink, and then some of the textual choices can be turned into any kind of pixel hunt, drag-and-drop, puzzle solving interaction.
+
+Thus, hidden options are a key feature to keep the text-and-choices layer well separated from the audio-video representation and interaction layer. A game with such layered architecture can be entirely tested in Ink before "wiring" it into its Unity project.
+
+Visible options are not mandatory: a choice can include hidden options only, in which case no option button would be displayed and the narrative flow would not proceed until a hidden option is triggered.
+
 ## Events
 
 The Gateway sends a stream of messages to the Fungus flowcharts describing what's going on in the Ink-based narrative part.
@@ -293,6 +309,10 @@ The ***Choice Time*** parameter defines the default duration (in seconds) of the
 ```
 From now on, we get one minute every time we have to choose something. # timer 60
 ```
+
+The ***Hidden Option Prefix*** parameter defines the prefix used to mark hidden options, i.e. options that are not to be shown in the `MenuDialog`. Changing this to any character or sequence of characters used in Ink's syntax would break the Gateway, so please be careful.
+
+The ***Enable Save And Load System*** parameter enables the system to save and load the story state. Many projects don't need the save/load system and can safely disable it for performance reasons, particulary to prevent frequent access to the local disk. This option is checked by default. Furthermore, if you have localization in your project, your choice will be overriden to always be enabled; the reason for this is that when you switch language, your latest autosaved state is restored.
 
 ## Save and load
 
