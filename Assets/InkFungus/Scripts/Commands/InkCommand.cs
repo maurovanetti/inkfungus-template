@@ -4,21 +4,24 @@ using UnityEngine;
 using Fungus;
 using InkFungus;
 
-public abstract class InkCommand : Command
+namespace InkFungus
 {
-    private static NarrativeDirector director;    
-
-    public override Color GetButtonColor()
+    public abstract class InkCommand : Command
     {
-        return Color.white;
-    }
+        private static NarrativeDirector director;
 
-    protected NarrativeDirector Director()
-    {
-        if (director == null)
+        public override Color GetButtonColor()
         {
-            director = GameObject.FindObjectOfType<NarrativeDirector>();
+            return Color.white;
         }
-        return director;
+
+        protected NarrativeDirector Director()
+        {
+            if (director == null)
+            {
+                director = GameObject.FindObjectOfType<NarrativeDirector>();
+            }
+            return director;
+        }
     }
 }

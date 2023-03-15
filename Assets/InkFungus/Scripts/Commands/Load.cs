@@ -4,20 +4,23 @@ using UnityEngine;
 using Fungus;
 using InkFungus;
 
-[CommandInfo("Ink", "Load", "Loads the Ink state from a save slot.")]
-public class Load : InkCommand
+namespace InkFungus
 {
-    public string slotName = "manual";
-
-    public override string GetSummary()
+    [CommandInfo("Ink", "Load", "Loads the Ink state from a save slot.")]
+    public class Load : InkCommand
     {
-        return $"Load Ink state from slot '{slotName}'";
-    }
+        public string slotName = "manual";
 
-    public override void OnEnter()
-    {
-        Director().Load(slotName);
+        public override string GetSummary()
+        {
+            return $"Load Ink state from slot '{slotName}'";
+        }
 
-        Continue();
+        public override void OnEnter()
+        {
+            Director().Load(slotName);
+
+            Continue();
+        }
     }
 }

@@ -4,18 +4,21 @@ using UnityEngine;
 using Fungus;
 using InkFungus;
 
-[CommandInfo("Ink", "Resume Narrative", "Starts or resumes the Ink story.")]
-public class ResumeNarrative : InkCommand
+namespace InkFungus
 {
-    public override string GetSummary()
+    [CommandInfo("Ink", "Resume Narrative", "Starts or resumes the Ink story.")]
+    public class ResumeNarrative : InkCommand
     {
-        return "Start or resume Ink";
-    }
+        public override string GetSummary()
+        {
+            return "Start or resume Ink";
+        }
 
-    public override void OnEnter()
-    {
-        Director().Resume();
+        public override void OnEnter()
+        {
+            Director().Resume();
 
-        Continue();
+            Continue();
+        }
     }
 }

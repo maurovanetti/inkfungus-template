@@ -4,27 +4,30 @@ using UnityEngine;
 using Fungus;
 using InkFungus;
 
-[CommandInfo("Ink", "Replace Menu Dialog", "Replaces the Menu Dialog used by Ink.")]
-public class ReplaceMenuDialog : InkCommand
+namespace InkFungus
 {
-    public MenuDialog menuDialog;
-
-    public override string GetSummary()
+    [CommandInfo("Ink", "Replace Menu Dialog", "Replaces the Menu Dialog used by Ink.")]
+    public class ReplaceMenuDialog : InkCommand
     {
-        if (menuDialog == null)
+        public MenuDialog menuDialog;
+
+        public override string GetSummary()
         {
-            return "Error: no Menu Dialog selected";
+            if (menuDialog == null)
+            {
+                return "Error: no Menu Dialog selected";
+            }
+            else
+            {
+                return $"Use Menu Dialog '{menuDialog.name}' in Ink";
+            }
         }
-        else
+
+        public override void OnEnter()
         {
-            return $"Use Menu Dialog '{menuDialog.name}' in Ink";
-        }        
-    }
+            Director().ReplaceMenuDialog(menuDialog);
 
-    public override void OnEnter()
-    {
-        Director().ReplaceMenuDialog(menuDialog);
-
-        Continue();
+            Continue();
+        }
     }
 }

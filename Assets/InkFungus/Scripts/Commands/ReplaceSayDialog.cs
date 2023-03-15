@@ -4,27 +4,30 @@ using UnityEngine;
 using Fungus;
 using InkFungus;
 
-[CommandInfo("Ink", "Replace Say Dialog", "Replaces the Say Dialog used by Ink.")]
-public class ReplaceSayDialog : InkCommand
+namespace InkFungus
 {
-    public SayDialog sayDialog;
-
-    public override string GetSummary()
+    [CommandInfo("Ink", "Replace Say Dialog", "Replaces the Say Dialog used by Ink.")]
+    public class ReplaceSayDialog : InkCommand
     {
-        if (sayDialog == null)
+        public SayDialog sayDialog;
+
+        public override string GetSummary()
         {
-            return "Error: no Say Dialog selected";
+            if (sayDialog == null)
+            {
+                return "Error: no Say Dialog selected";
+            }
+            else
+            {
+                return $"Use Say Dialog '{sayDialog.name}' in Ink";
+            }
         }
-        else
+
+        public override void OnEnter()
         {
-            return $"Use Say Dialog '{sayDialog.name}' in Ink";
-        }        
-    }
+            Director().ReplaceSayDialog(sayDialog);
 
-    public override void OnEnter()
-    {
-        Director().ReplaceSayDialog(sayDialog);
-
-        Continue();
+            Continue();
+        }
     }
 }

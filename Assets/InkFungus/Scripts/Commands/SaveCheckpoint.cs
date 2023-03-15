@@ -4,20 +4,23 @@ using UnityEngine;
 using Fungus;
 using InkFungus;
 
-[CommandInfo("Ink", "Save Checkpoint", "Saves the Ink state at the moment when the current knot or stitch of story started.")]
-public class SaveCheckpoint : InkCommand
+namespace InkFungus
 {
-    public string slotName = "manual";
-
-    public override string GetSummary()
+    [CommandInfo("Ink", "Save Checkpoint", "Saves the Ink state at the moment when the current knot or stitch of story started.")]
+    public class SaveCheckpoint : InkCommand
     {
-        return $"Save Ink checkpoint in slot '{slotName}'";
-    }
+        public string slotName = "manual";
 
-    public override void OnEnter()
-    {
-        Director().SaveCheckpoint(slotName);
+        public override string GetSummary()
+        {
+            return $"Save Ink checkpoint in slot '{slotName}'";
+        }
 
-        Continue();
+        public override void OnEnter()
+        {
+            Director().SaveCheckpoint(slotName);
+
+            Continue();
+        }
     }
 }

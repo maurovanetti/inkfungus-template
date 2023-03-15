@@ -4,20 +4,23 @@ using UnityEngine;
 using Fungus;
 using InkFungus;
 
-[CommandInfo("Ink", "Choose Hidden Option", "Chooses a hidden option in a branching point of the Ink story.")]
-public class ChooseHiddenOption : InkCommand
+namespace InkFungus
 {
-    public StringData optionLabel;
-
-    public override string GetSummary()
+    [CommandInfo("Ink", "Choose Hidden Option", "Chooses a hidden option in a branching point of the Ink story.")]
+    public class ChooseHiddenOption : InkCommand
     {
-        return $"Choose hidden option '{optionLabel.GetDescription()}' in Ink";
-    }
+        public StringData optionLabel;
 
-    public override void OnEnter()
-    {
-        Director().OnHiddenOptionChosen(optionLabel.Value);
+        public override string GetSummary()
+        {
+            return $"Choose hidden option '{optionLabel.GetDescription()}' in Ink";
+        }
 
-        Continue();
+        public override void OnEnter()
+        {
+            Director().OnHiddenOptionChosen(optionLabel.Value);
+
+            Continue();
+        }
     }
 }

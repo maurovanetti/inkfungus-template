@@ -4,20 +4,23 @@ using UnityEngine;
 using Fungus;
 using InkFungus;
 
-[CommandInfo("Ink", "Choose Option", "Chooses an option in a branching point of the Ink story.")]
-public class ChooseOption : InkCommand
+namespace InkFungus
 {
-    public IntegerData optionIndex;
-
-    public override string GetSummary()
+    [CommandInfo("Ink", "Choose Option", "Chooses an option in a branching point of the Ink story.")]
+    public class ChooseOption : InkCommand
     {
-        return $"Choose option '{optionIndex.GetDescription()}' in Ink";
-    }
+        public IntegerData optionIndex;
 
-    public override void OnEnter()
-    {
-        Director().OnOptionChosen(optionIndex.Value);
+        public override string GetSummary()
+        {
+            return $"Choose option '{optionIndex.GetDescription()}' in Ink";
+        }
 
-        Continue();
+        public override void OnEnter()
+        {
+            Director().OnOptionChosen(optionIndex.Value);
+
+            Continue();
+        }
     }
 }
