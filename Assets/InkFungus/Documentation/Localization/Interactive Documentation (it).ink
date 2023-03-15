@@ -181,19 +181,64 @@ Wauro "This is very useful to have some characters speak through a completely di
 Ink is meant to be used for branching narratives.
 This implies that sometimes there are different options to choose from, as you saw in the previous menus.
 Let's make an example.
-+	First option.
-+ Second option.
++   First option.
++   Second option.
 - That's it. This magic happens in the Ink script, check the Ink documentation to know all the tricks.
+-> Options_submenu
+
+= Options_submenu
+Is there anything else you want to know?
++   Can I change the appearance of the options and their number?
+    -> Options_appearance
++   Can I do something like a point-and-click adventure?
+    Yes you can!
+    -> Options_hidden -> Options_submenu
++   I'm fine.
+    -> Conversation_submenu
+    
+= Options_appearance
 Options are displayed using the Fungus MenuDialog. The appearance and behaviour of the menu can be modified by altering the MenuDialog.
 The standard MenuDialog have a maximum of 6 option buttons. This means that your Ink should not include more than 6 choices in any branching.
--> Conversation_submenu
+-> Options_submenu
+
+= Options_hidden
+This is a feature introduced in version 1.2 of this Gateway.
+If an option starts with "@", it's called a hidden option.
+Hidden options are, well, hidden. They are not displayed as buttons with text.
+You can associate any kind of event (e.g., a click on a Fungus ClickableSprite) to a hidden option, by using the new "Ink/Choose Hidden Option" Fungus command.
+This is a huge advantage because you can write your story in Ink, and then turn some of the textual choices into any kind of pixel hunt, drag-and-drop, puzzle solving interaction.
+Let's try this feature. I'm now putting three choices here:
++   Choice 1
++   @choice2
++   Choice 3
+- You haven't seen the 2nd choice because it was hidden. I marked it as "@choice2" in the script.
+Now, imagine I want to give you the chance to select a hidden option by clicking on the key icon. # displaykey
+Imagine there's a locked door and you have one textual choice in display + another hidden choice…
+-> Locked_door
+
+= Locked_door
++   Open door.
+    No way, the door is locked.
+    You need to click on the key.
+    -> Locked_door
++   @usekey
+    There you go!
+- Check the script and the scene and the Locked Door Flowchart to find out how this works.
+The hidden option "@usekey" can only be selected by clicking on the key icon, which triggers a Fungus command called "Ink/Choose Hidden Option".
+The "Ink/Choose Hidden Option" command was configured to select the hidden option called "usekey" (no leading "@" symbol).
+By the way, you don't need to have any visible option. In this case, the only option is hidden.
++   @usekey
+- Easy.
+Hopefully, this feature will let you test your game completely on Ink before bringing it to life in Unity and Fungus. #hidekey
+->->
+
 
 = Conversation_settings
 There are some advanced features in the Gateway that enable more complex manipulation of the conversation system's behaviour.
 Do you want to check them?
 +	Bring me to the advanced-features menu.
 	-> Advanced_features
-+ Bring me back to the menu about the conversation system.
++   Bring me back to the menu about the conversation system.
 	-> Conversation_submenu
 	
 = Events
@@ -543,6 +588,14 @@ Wauro "Which of the obscure configurations in the Advanced Settings area of the 
 	-> Gateway_flowchart
 +	The Choice Time.
 	-> Choice_time
++	The Hidden Option Prefix.
+	-> Hidden_option_prefix
++	The flag to enable the save and load system.
+	It does what it says.
+	If you don't need saving and loading + you don't need localization, feel free to uncheck this.
+	If you have localization in your project, your choice will be overriden to always be enabled.
+	The reason for this is that when you switch language, your latest autosaved state is restored.
+	-> Menu
 +	Bring me back to the main menu. I'm scared and I feel unwell.
 	-> Menu
 
@@ -606,6 +659,20 @@ Wauro "Check it out.
 + Hey!
 - Wauro "You get it.
 Wauro "We can switch it off again. # off timer
+-> Settings_advanced
+
+= Hidden_option_prefix
+Wauro "If you know what hidden options are, you already know that hidden options usually come with a "@" sign in front of them.
+Mauro "I'm not sure everyone remembers what hidden options are…
+Wauro "OK, OK. Do you know what's a hidden option?
++   Of course I do.
++   I don't.
+    -> Basic_features.Options_hidden ->
++   I do but I'd love to hear about it again.
+    -> Basic_features.Options_hidden ->
+- Wauro "So, we're on the same page.
+Wauro "If you don't like "@" being used as your marker for hidden options, pick another prefix.
+Wauro "Just avoid picking anything already used in the syntax of Ink or the Gateway.
 -> Settings_advanced
 
 = Save_load
