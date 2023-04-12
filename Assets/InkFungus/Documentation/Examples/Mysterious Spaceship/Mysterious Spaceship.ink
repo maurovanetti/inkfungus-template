@@ -20,6 +20,7 @@ VAR with_cleaner = false
 
 = wake_up
 You wake up, tired and confused.
+You "Where am I?"
 You don't know where you are. // He's on a spaceship
 Everything is dark, except the stars you can see through a very large window.
 -> what
