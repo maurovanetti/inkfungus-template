@@ -26,6 +26,10 @@ Hopefully, you can become part of the community of developers of the Ink-Unity G
 
 ### How can I set up a scene for the Gateway?
 
+You can simply fork this template, duplicate the scene you find in *Scene/Template Scene.unity* and start working on your copy.
+
+If you want to start from scratch instead:
+
 - Create an empty scene or open a scene you want to augment with Ink and Fungus.
 - [Import the Fungus package](https://github.com/snozbot/fungus/releases/) in the scene. *Lite* packages are OK.
 - [Import the Ink Unity Integration package](https://assetstore.unity.com/packages/tools/integration/ink-unity-integration-60055) in the scene.
@@ -37,8 +41,8 @@ Hopefully, you can become part of the community of developers of the Ink-Unity G
 
 That's it.
 
-You now have three key GameObjects in your scene:
-- The `Ink-Fungus Gateway` with ist most important `Narrative Director` highly configurable component. It also includes a predefined Fungus Flowchart called `Gateway Flowchart` which is used by the default handling of narrative branchings.
+Now you have three key GameObjects in your scene:
+- The `Ink-Fungus Gateway` with ist most important, highly configurable `Narrative Director` component. It also includes a predefined Fungus Flowchart called `Gateway Flowchart` which is used by the default handling of narrative branchings.
 - The `SayDialog` (a standard Fungus object) and all its childrens, grandchildren etc.
 - The `MenuDialog` (another standard Fungus object) and all its childrens, grandchildren etc.
 
