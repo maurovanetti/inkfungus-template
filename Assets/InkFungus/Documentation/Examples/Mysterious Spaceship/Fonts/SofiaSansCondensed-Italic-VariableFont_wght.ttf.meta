@@ -1,0 +1,22 @@
+fileFormatVersion: 2
+guid: 3c4919f3c36b09445b79ba9caad544e1
+TrueTypeFontImporter:
+  externalObjects: {}
+  serializedVersion: 4
+  fontSize: 16
+  forceTextureCase: -2
+  characterSpacing: 0
+  characterPadding: 1
+  includeFontData: 1
+  fontNames:
+  - Sofia Sans Condensed
+  fallbackFontReferences:
+  - {fileID: 12800000, guid: 663f60abe5f427b4db03b659fd0a5be8, type: 3}
+  customCharacters: 
+  fontRenderingMode: 0
+  ascentCalculationMode: 1
+  useLegacyBoundsCalculation: 0
+  shouldRoundAdvanceValue: 1
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 

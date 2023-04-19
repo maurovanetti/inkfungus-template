@@ -20,8 +20,9 @@ VAR with_cleaner = false
 
 = wake_up
 You wake up, tired and confused.
-You "Where am I?"
+You?surprised "Where am I?"
 You don't know where you are. // He's on a spaceship
+You?angry "Where am I, for heaven's sake?!"
 Everything is dark, except the stars you can see through a very large window.
 -> what
 
@@ -649,9 +650,9 @@ This must just be a connection between two areas.
 
 = dialogue
 {with_cleaner: The {~cleaner|robot|automated cleaner|mechanical janitor} is {~silently|quietly|obediently|always} following {~you|the light you bring along}.}
-{-> dialogue_1 |-> dialogue_2 |-> dialogue_3 |-> dialogue_4 |->smalltalk_5 |->smalltalk_6 |->smalltalk_7 | ->->}
+{-> taboo |-> chat |-> chat |-> chat | ->->}
 
-= dialogue_1
+= taboo
 The way the Voice said that "they" are breaching was scary.
 It soundes like {voice_pronoun} was struggling to pronounce the words.
 +   Ask directly why
@@ -682,43 +683,54 @@ It marks a "taboo", i.e. some special constraint that was superimposed to the AI
     So IT IS a taboo.
 - Someone must have placed a taboo on this "breach", whatever it is.
 This is crazy, because everyone is hibernated on board, and you cannot imagine the Earth HQ placing an AI taboo on an emergency here.
-Earth, by the way. How fare are they?
+Earth, by the way. How far are they?
 +   Ask the Voice
     "How far is Earth?"
     Voice "About 812 lightdays."
     It's difficult to imagine that they sent a taboo placement order two years ago.
 - This situation is puzzling.
+Someone somehow managed to place a taboo on the on-board assistant AI, and the taboo itself is preventing you from learning more about this situation.
+Chances are, the invaders themselves placed the taboo.
+But you cannot imagine how any hostile spaceship from the Solar System may have reached you this far.
+You both stopped chatting.
 ->->
 
-= dialogue_2
-Dialogue 2
-TODO Why should we wake up the others? 
+= chat
+You have some time to {~talk|chat} with the {~AI|Voice} again.
+-> chat_choice
+
+= chat_choice
++   Why wake the others?
+    -> who_are_they
++   I'm stuck here!
+    -> who_are_they
++   Who are the invaders?
+    -> who_are_they
++   Why is it so dark?
+TODO Add smalltalk options
 ->->
 
-= dialogue_3
-Dialogue 3
-TODO I'll be stuck here alone for decades
+
+= who_are_they
+You need more information about the mysterious people (or… entities?) who are invading the spaceship.
++   Be understanding
+    "I realise you cannot tell me who placed the taboo."
+    Voice "Exactly."
++   Be annoyed
+    "We can't make any progress if you don't tell me who placed the taboo."
+    Voice "I'm sure you can make a lot of progress anyway, Captain."
+- "But you can tell me which subjects the taboo is about, at least?"
+Voice "I'D RATHER NOT talk about… 'them'." #taboo
+OK, understood. Is their identity the only censored subject?
+"OK, I can go to the breach area and find out on my own."
+Voice "You can, but…"
+The Voice was trembling again.
+Voice "…I'D RATHER NOT help you or anyone reach the breach area." #taboo
+"You advise me against going there?"
+Voice "Not really. There are very good, rational reasons to go there indeed."
+The Voice is clearly trying to dodge the taboo to tell me that I actually have to go there.
 ->->
 
-= dialogue_4
-Dialogue 4
-TODO Who are the invaders?
-->->
-
-= smalltalk_5
-Smalltalk 5
-TODO 
-->->
-
-= smalltalk_6
-Smalltalk 6
-TODO
-->->
-
-= smalltalk_7
-Smalltalk 7
-TODO
-->->
 
 
 === The_Duel ===
