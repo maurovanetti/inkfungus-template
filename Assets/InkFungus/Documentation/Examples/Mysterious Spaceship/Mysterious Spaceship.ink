@@ -23,16 +23,16 @@ You wake up, tired and confused.
 You?surprised "Where am I?"
 You don't know where you are. // He's on a spaceship
 You?angry "Where am I, for heaven's sake?!"
-Everything is dark, except the stars you can see through a very large window.
+Everything is dark, except the stars you can see through a very large window. # timer 10 # yes timer
 -> what
 
 = what
 *   Go by the window
-    Out of the window there's only... space.
+    Out of the window there's only... space. # window
     You are floating in the middle of an apparently endless abyss.
     -> what
 *   Look around
-    You are in an empty room, in which there is only a bizarre machine dripping with thick water.
+    You are in an empty room, in which there is only a bizarre machine dripping with thick water. # hibernation_room
     The machine sports a big red button on its wet glass-like surface.
     -> machine_what
 *   -> rest
