@@ -14,26 +14,26 @@ VAR with_cleaner = false
 
 ~ hydration++
 ~ water_supplies--
--> Intro
+-> The_Labyrinth.west_up
 
 === Intro ===
 
 = wake_up
-You wake up, tired and confused.
+You wake up, tired and confused. 
 You?surprised "Where am I?"
 You don't know where you are. // He's on a spaceship
 You?angry "Where am I, for heaven's sake?!"
-Everything is dark, except the stars you can see through a very large window. # timer 10 # yes timer
+Everything is dark, except the stars you can see through a very large window.
 -> what
 
 = what
-*   Go by the window
-    Out of the window there's only... space. # window
+*   Go by the window # redbutton_off
+    Out of the window there's only... space. # wait # window
     You are floating in the middle of an apparently endless abyss.
     -> what
 *   Look around
-    You are in an empty room, in which there is only a bizarre machine dripping with thick water. # hibernation_room
-    The machine sports a big red button on its wet glass-like surface.
+    You are in an empty room, in which there is only a bizarre machine dripping with thick water. # wait # hibernation_room
+    The machine sports a big red button on its wet glass-like surface. # redbutton_on
     -> machine_what
 *   -> rest
 - -> what
@@ -41,20 +41,20 @@ Everything is dark, except the stars you can see through a very large window. # 
 = machine_what
 *   Wipe the machine's surface clean
     -> wipe_machine
-*   Press the big button
+*   @press_the_big_button
     -> press_machine_button
 *   Don't touch anything {|else}
     -> what
     
 = wipe_machine
-The surface of the machine has a series of four look-through areas.
+The surface of the machine has a series of four look-through areas. # redbutton_off
 Through three of those small square windows you can see people buried in the machine.
 They look like they're dead, or sleeping very deeply.
 You look away in horror.
 -> machine_what
 
 = press_machine_button
-As soon as you press the red button on the {wipe_machine:hibernation machine|unknown machine}, a loud alarm is triggered.
+As soon as you press the red button on the {wipe_machine:hibernation machine|unknown machine}, a loud alarm is triggered. # redbutton_off
 ~ alarm_ringing = true
 -> alarm_noise ->
 It's deafening!
