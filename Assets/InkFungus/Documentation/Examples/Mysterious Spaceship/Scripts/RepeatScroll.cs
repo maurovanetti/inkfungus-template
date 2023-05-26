@@ -26,4 +26,16 @@ public class RepeatScroll : MonoBehaviour
             transform.position = initialPosition;
         }
     }
+
+    public void setDirection(bool rightward)
+    {
+        if (rightward)
+        {
+            scrollSpeed = Mathf.Abs(scrollSpeed);
+        }
+        else
+        {
+            scrollSpeed = -Mathf.Abs(scrollSpeed);
+        }
+    }
 }
