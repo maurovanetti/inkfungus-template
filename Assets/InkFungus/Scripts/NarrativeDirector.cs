@@ -523,12 +523,12 @@ namespace InkFungus
                                     line = dialogLine.Groups["text"].Value;
                                 }
                             }
-                        }                     
-                        menuDialog.AddOption(line, true, hiddenOption, callbackBlock);
-                        if (choice == choices[0] && flags["timer"].Get())
-                        {
-                            menuDialog.ShowTimer(choiceTime, callbackBlock);
-                        }
+                            menuDialog.AddOption(line, true, hiddenOption, callbackBlock);
+                            if (choice == choices[0] && flags["timer"].Get())
+                            {
+                                menuDialog.ShowTimer(choiceTime, callbackBlock);
+                            }
+                        }                        
                     }
                 }
             }
