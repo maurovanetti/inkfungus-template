@@ -3,6 +3,7 @@
 
 ﻿using UnityEngine;
 using MoonSharp.Interpreter;
+using Fungus.Lua;
 
 namespace Fungus
 {

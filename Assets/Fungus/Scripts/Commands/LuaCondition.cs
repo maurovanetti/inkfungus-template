@@ -6,6 +6,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using Fungus;
 using MoonSharp.Interpreter;
+using Fungus.Lua;
 
 namespace Fungus
 {

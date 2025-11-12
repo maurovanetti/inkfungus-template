@@ -9,8 +9,9 @@ using System.Linq;
 using System.Text;
 using System.Text.RegularExpressions;
 using MoonSharp.Interpreter;
+using Fungus.Lua.JSON;
 
-namespace Fungus
+namespace Fungus.Lua
 {
     /// <summary>
     /// Options for using the Lua FungusModule.
@@ -156,7 +157,11 @@ namespace Fungus
         /// </summary>
         protected virtual void InitBindings()
         {
+        #if UNITY_6000
+            LuaBindingsBase[] bindings = GameObject.FindObjectsByType<LuaBindingsBase>(FindObjectsSortMode.None);
+        #else
             LuaBindingsBase[] bindings = GameObject.FindObjectsOfType<LuaBindingsBase>();
+        #endif
             foreach (LuaBindingsBase binding in bindings)
             {
                 binding.AddBindings(luaEnvironment);

@@ -9,7 +9,7 @@ using System.Text;
 using MarkerMetro.Unity.WinLegacy.Reflection;
 #endif
 
-namespace Fungus
+namespace Fungus.Lua
 {
     /// <summary>
     /// Replaces special tokens in a string with substituted values (typically variables or localisation strings).

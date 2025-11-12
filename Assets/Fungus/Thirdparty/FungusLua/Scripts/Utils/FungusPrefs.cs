@@ -3,7 +3,7 @@
 
 ﻿using UnityEngine;
 
-namespace Fungus
+namespace Fungus.Lua
 {
     /// <summary>
     /// Wrapper class for PlayerPrefs that adds the concept of multiple save slots.

@@ -22,7 +22,11 @@ namespace Fungus.EditorUtils
             }
 
             // Only the first created Flowchart in the scene should have a default GameStarted block
+        #if UNITY_6000
+            if (GameObject.FindObjectsByType<Flowchart>(FindObjectsSortMode.None).Length > 1)
+        #else
             if (GameObject.FindObjectsOfType<Flowchart>().Length > 1)
+        #endif
             {
                 var block = go.GetComponent<Block>();
                 GameObject.DestroyImmediate(block._EventHandler);
@@ -34,29 +38,6 @@ namespace Fungus.EditorUtils
         static void CreateFungusLogo()
         {
             SpawnPrefab("FungusLogo");
-        }
-
-        [MenuItem("Tools/Fungus/Utilities/Export Fungus Package")]
-        static void ExportFungusPackageFull()
-        {
-            ExportFungusPackage( new string[] {"Assets/Fungus", "Assets/FungusExamples" });
-        }
-
-        [MenuItem("Tools/Fungus/Utilities/Export Fungus Package - Lite")]
-        static void ExportFungusPackageLite()
-        {
-            ExportFungusPackage(new string[] { "Assets/Fungus" });
-        }
-
-        static void ExportFungusPackage(string[] folders)
-        {
-            string path = EditorUtility.SaveFilePanel("Export Fungus Package", "", "Fungus", "unitypackage");
-            if (path.Length == 0)
-            {
-                return;
-            }
-
-            AssetDatabase.ExportPackage(folders, path, ExportPackageOptions.Recurse);
         }
 
         public static GameObject SpawnPrefab(string prefabName)

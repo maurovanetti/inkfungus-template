@@ -18,6 +18,7 @@ Mauro "It can be modified and restributed, as long as credits to the original ve
 Mauro "As an exception, no game of a racist, fascist or sexist character can be created using this tool or its derivatives. Why? Because screw nazis.
 Mauro "Ink is a free software created and maintained by Inkle Studios with the support of their open-source community.
 Mauro "Fungus is a free software originally created by Chris Gregan and currently maintained by a vibrant community of open-source developers.
+Mauro "The Gateway is currently using the new "Community Edition" of Fungus, also known as Amanita.
 Mauro "Hopefully, you can become part of the community of developers of the Ink-Unity Gateway, too.
 -> Menu
 
@@ -26,7 +27,8 @@ The Ink-Fungus Gateway is (no surprise here) a gateway between Ink and Fungus.
 Ink is a scripting language for interactive fiction, developed by Inkle.
 You can find more about Ink at www.inklestudios.com\/ink
 Fungus is a visual storytelling and scripting tool for Unity.
-You can find more about Fungus at fungusgames.com
+Fungus was rejuvenated as Fungus Community Edition (Amanita).
+You can find more about Fungus/Amanita at github.com\/Atelier-Mycelia
 Both tools are free and open source, as the Gateway itself.
 Both tools are really good and useful, but unfortunately they could not be used together.
 Until now!

@@ -3,6 +3,7 @@
 
 using UnityEngine;
 using UnityEngine.Serialization;
+using Fungus.DentedPixel;
 
 namespace Fungus
 {

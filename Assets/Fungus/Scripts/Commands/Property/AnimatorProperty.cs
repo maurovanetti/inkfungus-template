@@ -4,7 +4,7 @@ using UnityEngine;
 
 namespace Fungus
 {
-    // <summary>
+    /// <summary>
     /// Get or Set a property of a Animator component
     /// </summary>
     [CommandInfo("Property", 
@@ -52,6 +52,8 @@ namespace Fungus
             LogWarnings, 
             FireEvents, 
             KeepAnimatorControllerStateOnDisable, 
+            KeepAnimatorStateOnDisable, 
+            WriteDefaultValuesOnDisable
         }
 
 		
@@ -191,9 +193,16 @@ namespace Fungus
                         case Property.FireEvents:
                             iob.Value = target.fireEvents;
                             break;
-#if UNITY_2019_2_OR_NEWER
-                case Property.KeepAnimatorControllerStateOnDisable:
+#if UNITY_2020_3_OR_NEWER
+                        case Property.KeepAnimatorStateOnDisable:
                             iob.Value = target.keepAnimatorStateOnDisable;
+                            break;
+                        case Property.WriteDefaultValuesOnDisable:
+                            iob.Value = target.writeDefaultValuesOnDisable;
+                            break;
+#elif UNITY_2018_1_OR_NEWER
+                        case Property.KeepAnimatorControllerStateOnDisable:
+                            iob.Value = target.keepAnimatorControllerStateOnDisable;
                             break;
 #endif
                         default:
@@ -247,9 +256,16 @@ namespace Fungus
                         case Property.FireEvents:
                             target.fireEvents = iob.Value;
                             break;
-#if UNITY_2019_2_OR_NEWER
-                        case Property.KeepAnimatorControllerStateOnDisable:
+#if UNITY_2020_3_OR_NEWER
+                        case Property.KeepAnimatorStateOnDisable:
                             target.keepAnimatorStateOnDisable = iob.Value;
+                            break;
+                        case Property.WriteDefaultValuesOnDisable:
+                            target.writeDefaultValuesOnDisable = iob.Value;
+                            break;
+#elif UNITY_2018_1_OR_NEWER
+                        case Property.KeepAnimatorControllerStateOnDisable:
+                            target.keepAnimatorControllerStateOnDisable = iob.Value;
                             break;
 #endif
                 default:

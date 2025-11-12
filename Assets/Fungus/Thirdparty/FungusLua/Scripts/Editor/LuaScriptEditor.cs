@@ -3,7 +3,7 @@
 
 using UnityEditor;
 
-namespace Fungus
+namespace Fungus.Lua
 {
     [CustomEditor (typeof(LuaScript))]
     public class LuaScriptEditor : Editor
