@@ -6,6 +6,8 @@
 
 The **Ink-Fungus Gateway** is (no surprise here) a gateway between Ink and Fungus. **Ink** is a scripting language for interactive fiction, developed by Inkle. **Fungus** is a visual storytelling and scripting tool for [**Unity**](https://unity.com/).
 
+It has been used to create several visual novels.
+
 The Ink-Fungus Gateway is available as [a free package on the Unity Asset Store](https://assetstore.unity.com/packages/tools/integration/ink-fungus-gateway-168147).
 
 The best way to find out how the Gateway works is by checking the interactive documentation, provided as a playable Unity scene in the *InkFungus/Documentation* subfolder of this package. The interactive documentation is also playable in the browser on [the author's itch.io page](https://maurovanetti.itch.io/ifg). This documentation is a useful reference for all the features of this tool. A good knowledge of Unity, Ink and Fungus is required to make games or other sorts of interactive text-and-pictures software using the Ink-Fungus Gateway.
@@ -20,7 +22,8 @@ It can be used freely, also for commercial games and other purposes. It can be m
 
 [**Ink**](https://www.inklestudios.com/ink/) is a free software created and maintained by [Inkle Studios](https://www.inklestudios.com/) with the support of their open-source community.
 
-[**Fungus**](https://fungusgames.com/) is a free software originally created by [Chris Gregan](https://www.linkedin.com/in/chrisgregan/) and currently maintained by a vibrant community of open-source developers.
+[**Fungus**](https://github.com/snozbot/fungus/wiki) is a free software originally created by [Chris Gregan](https://www.linkedin.com/in/chrisgregan/) and currently maintained by a vibrant community of open-source developers.
+This Gateway currently uses the "Community Edition" of Fungus, also known as [**Amanita**](https://github.com/Atelier-Mycelia).
 
 Hopefully, you can become part of the community of developers of the Ink-Unity Gateway, too.
 
@@ -31,7 +34,7 @@ You can simply fork this template, duplicate the scene you find in *Scene/Templa
 If you want to start from scratch instead:
 
 - Create an empty scene or open a scene you want to augment with Ink and Fungus.
-- [Import the Fungus package](https://github.com/snozbot/fungus/releases/) in the scene. *Lite* packages are OK.
+- [Import the Fungus/Amanita package](https://github.com/Atelier-Mycelia/Amanita/releases/) in the scene. 
 - [Import the Ink Unity Integration package](https://assetstore.unity.com/packages/tools/integration/ink-unity-integration-60055) in the scene.
 - Find the *Tools > Fungus > Create* submenu. You have to create 3 objects from there:
   - First of all, create the *Ink-Fungus Gateway* in your scene. Click on *Tools > Fungus > Create > Ink-Fungus Gateway*.
@@ -47,6 +50,16 @@ Now you have three key GameObjects in your scene:
 - The `MenuDialog` (another standard Fungus object) and all its childrens, grandchildren etc.
 
 You can and should customise these objects, to modify their appearance and behaviour.
+
+### Old versions
+
+In general, the Gateway does not seem to be too strictly dependent on the exact version of Unity, Ink or Fungus, because it's using basic functionalities of the three tools that did not evolve much.
+
+If you don't want to move on to Amanita (Fungus CE), [Fungus classic](https://github.com/snozbot/fungus/releases/) packages should also work, including *lite* versions.
+
+[Version 1.2.1](https://github.com/maurovanetti/inkfungus-template/releases/tag/v1.2.1) of this project works properly and no significant bug was found by the community so far. It is based on Unity 2021.3 and Fungus classic v3.13.8.
+
+Older versions and dependencies, though, are not supported and maintained.
 
 ## Basic features
 
