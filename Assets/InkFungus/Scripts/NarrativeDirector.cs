@@ -56,12 +56,12 @@ namespace InkFungus
 
         private Story story;
         private Regex compiledDialogRegex;
-        private Dictionary<string, Character> characters = new Dictionary<string, Character>();
+        private readonly Dictionary<string, Character> characters = new();
         private GlobalVariables fungusGlobalVariables;
-        private Dictionary<string, List<Flowchart>> syncVariables = new Dictionary<string, List<Flowchart>>();
+        private readonly Dictionary<string, List<Flowchart>> syncVariables = new();
         private bool beforeFirstSync = true;
-        private Dictionary<int, int> visibleChoicesToInkChoices = new Dictionary<int, int>();
-        private List<string> hiddenChoices = new List<string>();
+        private readonly Dictionary<int, int> visibleChoicesToInkChoices = new();
+        private readonly List<string> hiddenChoices = new();
 
         // Configurations driven by Ink tags:
         private bool pause = true;
@@ -77,7 +77,7 @@ namespace InkFungus
         private string lastKnotStitch = null;
 
         // Flags
-        private Dictionary<string, Flag> flags = new Dictionary<string, Flag>();
+        private readonly Dictionary<string, Flag> flags = new();
 
         // Lists stuff
         private const string ListItemSeparator = "__";
@@ -126,11 +126,11 @@ namespace InkFungus
             story = new Story(ink.text);
             if (sayDialog == null)
             {
-                sayDialog = FindObjectOfType<SayDialog>();
+                sayDialog = FindFirstObjectByType<SayDialog>();
             }
             if (menuDialog == null)
             {
-                menuDialog = FindObjectOfType<MenuDialog>();
+                menuDialog = FindFirstObjectByType<MenuDialog>();
             }
             if (gatewayFlowchart == null)
             {
@@ -153,8 +153,7 @@ namespace InkFungus
 
         private void SyncListToFungus(string inkListName, object inkListNewValue)
         {
-            InkList inkList = story.variablesState[inkListName] as InkList;
-            if (inkList == null)
+            if (story.variablesState[inkListName] is not InkList inkList)
             {
                 Debug.LogError("Sync list mismatch: " + inkListName + " is not a list in Ink");
             }
@@ -267,13 +266,13 @@ namespace InkFungus
 
         void Start()
         {
-            Character[] allCharacters = FindObjectsOfType<Character>();
+            Character[] allCharacters = FindObjectsByType<Character>(FindObjectsSortMode.None);
             foreach (Character anyCharacter in allCharacters)
             {
                 characters.Add(anyCharacter.name, anyCharacter);
             }
-            compiledDialogRegex = new Regex(dialogRegex);
-            Flowchart[] allFlowcharts = FindObjectsOfType<Flowchart>();
+            compiledDialogRegex = new Regex(dialogRegex, RegexOptions.Compiled | RegexOptions.CultureInvariant);
+            Flowchart[] allFlowcharts = FindObjectsByType<Flowchart>(FindObjectsSortMode.None);
             foreach (Flowchart flowchart in allFlowcharts)
             {
                 foreach (Variable fungusVariable in flowchart.Variables)
@@ -286,15 +285,17 @@ namespace InkFungus
                         }
                         else
                         {
-                            List<Flowchart> newList = new List<Flowchart>();
-                            newList.Add(flowchart);
+                            List<Flowchart> newList = new()
+                            {
+                                flowchart
+                            };
                             syncVariables.Add(fungusVariable.Key, newList);
                         }
                     }
                 }
             }
             fungusGlobalVariables = FungusManager.Instance.GlobalVariables;
-            List<string> unsyncVariableNames = new List<string>();
+            List<string> unsyncVariableNames = new();
             foreach (string fungusVariableName in new List<string>(syncVariables.Keys))
             {
                 try
@@ -447,7 +448,7 @@ namespace InkFungus
                 }
                 narrationHandle++;
                 int originalNarrationHandle = narrationHandle;
-                Action onSayComplete = delegate ()
+                void onSayComplete()
                 {
                     if (IsNarrationAt(originalNarrationHandle))
                     {
@@ -457,12 +458,12 @@ namespace InkFungus
                     {
                         Log(LogLevel.Verbose, "Discarding orphan action associated with expired narration handle " + originalNarrationHandle);
                     }
-                };
+                }
                 bool fadeWhenDone = flags["hide"].Get() || story.canContinue || story.currentChoices.Count == 0;
-                Action say = delegate ()
+                void say()
                 {
                     StartCoroutine(sayDialogToUse.DoSay(line, true, !flags["auto"].Get(), fadeWhenDone, true, true, null, onSayComplete));
-                };
+                }
                 if (waitTime > 0)
                 {
                     AfterDelayDo(say, waitTime);
@@ -674,7 +675,7 @@ namespace InkFungus
             {
                 return null;
             }
-            return trimmed.Substring(hiddenOptionPrefix.Length).TrimStart();
+            return trimmed[hiddenOptionPrefix.Length..].TrimStart();
         }
 
         public void OnHiddenOptionChosen(string choiceLabel)
@@ -775,8 +776,7 @@ namespace InkFungus
                         {
                             string listName = listVariableParts[0];
                             string listItemName = listVariableParts[1];
-                            InkList inkList = story.variablesState[listName] as InkList;
-                            if (inkList == null)
+                            if (story.variablesState[listName] is not InkList inkList)
                             {
                                 Debug.LogError("Sync list mismatch: " + listName + " is not a list in Ink");
                             }
@@ -792,7 +792,7 @@ namespace InkFungus
                                 }
                                 else
                                 {
-                                    List<InkListItem> toRemove = new List<InkListItem>();
+                                    List<InkListItem> toRemove = new();
                                     foreach (InkListItem inkListItem in inkList.Keys)
                                     {
                                         if (inkListItem.itemName == listItemName)
