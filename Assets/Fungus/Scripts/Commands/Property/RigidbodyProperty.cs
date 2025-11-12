@@ -70,16 +70,16 @@ namespace Fungus
                     switch (property)
                     {
                         case Property.Velocity:
-                            iov.Value = target.velocity;
+                            iov.Value = target.linearVelocity;
                             break;
                         case Property.AngularVelocity:
                             iov.Value = target.angularVelocity;
                             break;
                         case Property.Drag:
-                            iof.Value = target.drag;
+                            iof.Value = target.linearDamping;
                             break;
                         case Property.AngularDrag:
-                            iof.Value = target.angularDrag;
+                            iof.Value = target.angularDamping;
                             break;
                         case Property.Mass:
                             iof.Value = target.mass;
@@ -139,16 +139,16 @@ namespace Fungus
                     switch (property)
                     {
                         case Property.Velocity:
-                            target.velocity = iov.Value;
+                            target.linearVelocity = iov.Value;
                             break;
                         case Property.AngularVelocity:
                             target.angularVelocity = iov.Value;
                             break;
                         case Property.Drag:
-                            target.drag = iof.Value;
+                            target.linearDamping = iof.Value;
                             break;
                         case Property.AngularDrag:
-                            target.angularDrag = iof.Value;
+                            target.angularDamping = iof.Value;
                             break;
                         case Property.Mass:
                             target.mass = iof.Value;

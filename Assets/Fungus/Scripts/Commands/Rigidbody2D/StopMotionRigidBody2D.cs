@@ -34,14 +34,14 @@ namespace Fungus
             switch (motionToStop)
             {
                 case Motion.Velocity:
-                    rb.Value.velocity = Vector2.zero;
+                    rb.Value.linearVelocity = Vector2.zero;
                     break;
                 case Motion.AngularVelocity:
                     rb.Value.angularVelocity = 0;
                     break;
                 case Motion.AngularAndLinearVelocity:
                     rb.Value.angularVelocity = 0;
-                    rb.Value.velocity = Vector2.zero;
+                    rb.Value.linearVelocity = Vector2.zero;
                     break;
                 default:
                     break;

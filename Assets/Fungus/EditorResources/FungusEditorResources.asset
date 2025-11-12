@@ -11,7 +11,7 @@ MonoBehaviour:
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: d2af387304e4b454b9ce8b815799cad0, type: 3}
   m_Name: FungusEditorResources
-  m_EditorClassIdentifier: 
+  m_EditorClassIdentifier: FungusEditor::Fungus.EditorUtils.FungusEditorResources
   updateOnReloadScripts: 0
   add:
     free: {fileID: 2800000, guid: 24a867d6b4cdda04cb3aa3350f9ec7d0, type: 3}

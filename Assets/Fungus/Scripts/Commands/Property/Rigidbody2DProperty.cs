@@ -71,7 +71,7 @@ namespace Fungus
                             iof.Value = target.rotation;
                             break;
                         case Property.Velocity:
-                            iov2.Value = target.velocity;
+                            iov2.Value = target.linearVelocity;
                             break;
                         case Property.AngularVelocity:
                             iof.Value = target.angularVelocity;
@@ -92,10 +92,10 @@ namespace Fungus
                             iof.Value = target.inertia;
                             break;
                         case Property.Drag:
-                            iof.Value = target.drag;
+                            iof.Value = target.linearDamping;
                             break;
                         case Property.AngularDrag:
-                            iof.Value = target.angularDrag;
+                            iof.Value = target.angularDamping;
                             break;
                         case Property.GravityScale:
                             iof.Value = target.gravityScale;
@@ -131,7 +131,7 @@ namespace Fungus
                             target.rotation = iof.Value;
                             break;
                         case Property.Velocity:
-                            target.velocity = iov2.Value;
+                            target.linearVelocity = iov2.Value;
                             break;
                         case Property.AngularVelocity:
                             target.angularVelocity = iof.Value;
@@ -149,10 +149,10 @@ namespace Fungus
                             target.inertia = iof.Value;
                             break;
                         case Property.Drag:
-                            target.drag = iof.Value;
+                            target.linearDamping = iof.Value;
                             break;
                         case Property.AngularDrag:
-                            target.angularDrag = iof.Value;
+                            target.angularDamping = iof.Value;
                             break;
                         case Property.GravityScale:
                             target.gravityScale = iof.Value;
